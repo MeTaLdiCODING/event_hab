@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:14
+    container_name: my-postgres
+    environment:
+      POSTGRES_DB: eventdb
+      POSTGRES_USER: eventuser
+      POSTGRES_PASSWORD: eventpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+#  app:
+#    image: my-spring-boot-app:event
+#    build: .
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/eventdb
+#      SPRING_DATASOURCE_USERNAME: eventuser
+#      SPRING_DATASOURCE_PASSWORD: eventpassword
+#    depends_on:
+#      - postgres  # Приложение будет ждать, пока запустится база
+#    restart: always
+
+volumes:
+  postgres_data:
