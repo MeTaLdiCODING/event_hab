@@ -19,12 +19,14 @@ import java.util.Optional;
 
 public class AuthService {
     final UserRepository userRepository;
+    final JwtService jwtService;
     private final BCryptPasswordEncoder passwordEncoder;
 
 
-    public AuthService(BCryptPasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public AuthService(BCryptPasswordEncoder passwordEncoder, UserRepository userRepository, JwtService jwtService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     public String register(RegisterRequest request){
@@ -61,8 +63,8 @@ public class AuthService {
                         .roles(user.getUserRole().name())
                         .build();
 
+                return jwtService.generateToken(userDetails);
 
-                return "Выполняется вход...";
             }
         }
 
