@@ -1,18 +1,14 @@
-package com.event.hab.auth.Servise;
+package com.event.hab.auth.servise;
 
 import com.event.hab.auth.DTO.LoginRequest;
 import com.event.hab.auth.DTO.RegisterRequest;
-import com.event.hab.auth.Model.User;
-import com.event.hab.auth.Model.UserRole;
-import com.event.hab.auth.Repository.UserRepository;
-import org.jspecify.annotations.Nullable;
-import org.springframework.security.core.GrantedAuthority;
+import com.event.hab.auth.model.User;
+import com.event.hab.auth.model.UserRole;
+import com.event.hab.auth.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @Service

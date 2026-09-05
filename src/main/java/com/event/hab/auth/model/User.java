@@ -1,4 +1,4 @@
-package com.event.hab.auth.Model;
+package com.event.hab.auth.model;
 
 import jakarta.persistence.*;
 import lombok.*;

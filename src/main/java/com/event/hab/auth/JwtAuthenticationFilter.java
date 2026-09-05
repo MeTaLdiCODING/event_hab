@@ -1,8 +1,8 @@
 package com.event.hab.auth;
 
-import com.event.hab.auth.Model.User;
-import com.event.hab.auth.Repository.UserRepository;
-import com.event.hab.auth.Servise.JwtService;
+import com.event.hab.auth.model.User;
+import com.event.hab.auth.repository.UserRepository;
+import com.event.hab.auth.servise.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

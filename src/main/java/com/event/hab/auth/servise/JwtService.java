@@ -1,4 +1,4 @@
-package com.event.hab.auth.Servise;
+package com.event.hab.auth.servise;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;

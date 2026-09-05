@@ -1,7 +1,6 @@
 package com.event.hab.congfig;
 
 import com.event.hab.auth.JwtAuthenticationFilter;
-import com.event.hab.auth.Servise.JwtService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

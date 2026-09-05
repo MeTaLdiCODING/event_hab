@@ -1,6 +1,6 @@
-package com.event.hab.auth.Repository;
+package com.event.hab.auth.repository;
 
-import com.event.hab.auth.Model.User;
+import com.event.hab.auth.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
