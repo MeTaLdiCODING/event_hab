@@ -1,11 +1,8 @@
 package com.event.hab.events.controller;
-
+import com.event.hab.events.model.Event;
 import com.event.hab.events.service.EventService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class EventController {
@@ -15,8 +12,26 @@ public class EventController {
         this.eventService = eventService;
     }
 
-    @GetMapping("/getAll")
-    public void getAll(Map<Long,String> event){
-
+    @GetMapping("/events")
+    public List<Event> getAllEvents(){//DTO
+        return eventService.getAll();
     }
+
+    @GetMapping("/eventById")
+    public void getEventById(){
+    }
+
+    @PostMapping("/createEvent")
+    public void createEvent(){
+    }
+
+    @PutMapping("/updateEvent")
+    public void updateEvent(){
+    }
+
+    @DeleteMapping("/deleteEvent")
+    public void deleteEvent(){
+    }
+
+
 }

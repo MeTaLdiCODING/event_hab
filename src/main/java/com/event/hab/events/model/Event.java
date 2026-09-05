@@ -1,10 +1,12 @@
 package com.event.hab.events.model;
 
 
+import com.event.hab.auth.model.User;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 @Data
@@ -23,9 +25,14 @@ public class Event {
     @Enumerated(EnumType.STRING)
     private Type type;
 
+    @CreationTimestamp
     private LocalDateTime createDate;//?
     private LocalDateTime eventDate;//?
 
     @Column(nullable = false)
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "organizer_id", nullable = false)
+    private User organizer;
 }
