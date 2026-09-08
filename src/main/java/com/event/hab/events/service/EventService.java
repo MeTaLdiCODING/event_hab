@@ -1,21 +1,16 @@
 package com.event.hab.events.service;
-
-import com.event.hab.auth.model.User;
 import com.event.hab.auth.repository.UserRepository;
 import com.event.hab.events.DTO.CreateEventRequest;
 import com.event.hab.events.DTO.EventDetailsDTO;
 import com.event.hab.events.DTO.EventSummaryDTO;
+import com.event.hab.events.DTO.UpdateEventRequest;
 import com.event.hab.events.EventMapper;
 import com.event.hab.events.model.Event;
 import com.event.hab.events.repository.EventRepository;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -45,7 +40,7 @@ public class EventService {
         }
         return eventMapper.toEventDetailsDto(eventOptional.get());
     }
-    //
+//
     public EventDetailsDTO createEvent(CreateEventRequest request) {
         Event event = eventMapper.toEvent(request);
 
@@ -60,5 +55,32 @@ public class EventService {
         return eventMapper.toEventDetailsDto(event);
 
     }
-    //дальше сервис и контроллер
+//
+    public String deleteEvent(Long id) {
+       String emailOrganizerEvent =  eventRepository.findById(id).orElseThrow().getOrganizer().getEmail();
+       UserDetails currentUser = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+       String userEmail = currentUser.getUsername();
+       if (!emailOrganizerEvent.equals(userEmail)){
+           throw new IllegalArgumentException("Вы не являетесь создателем этого события");
+       }else {
+        eventRepository.deleteById(id);
+        return "Событие с этим id удаленно: "+ id;}
+    }
+//
+    public EventDetailsDTO updateEvent(Long id, UpdateEventRequest request) {
+        Optional<Event> event = eventRepository.findById(id);
+        String emailOrganizerEvent =  event.orElseThrow().getOrganizer().getEmail();
+        UserDetails currentUser = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userEmail = currentUser.getUsername();
+        if (!emailOrganizerEvent.equals(userEmail)){
+            throw new IllegalArgumentException("Вы не являетесь создателем этого события");
+        }else {
+           Event eventToUpdate  = event.get();
+           eventMapper.updateEventFromDto(request,eventToUpdate);
+           eventRepository.save(eventToUpdate);
+           return eventMapper.toEventDetailsDto(eventToUpdate);
+
+
+        }
+    }
 }

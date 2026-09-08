@@ -23,11 +23,10 @@ public class JwtService {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    //eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiW1JPTEVfUEFSVElDSVBBTlRdIiwic3ViIjoidGVzdDFAZXhhbXBsZS5jb20iLCJpYXQiOjE3ODgzODEwMjUsImV4cCI6MTc4ODQ2NzQyNX0.6kQjbb1jOHrcdbIk2vJcUAMHMGVMdrpMC8qTXp6tTQ8
     public String generateToken(UserDetails userDetails){
        String email =  userDetails.getUsername();
        String role = userDetails.getAuthorities().toString();
-        // дописать role с ROLE_/// на ///
+
        Map<String, Object> claims = new HashMap<>();
         claims.put("role", role);
        return Jwts.builder()

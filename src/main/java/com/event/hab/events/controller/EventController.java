@@ -2,8 +2,7 @@ package com.event.hab.events.controller;
 import com.event.hab.events.DTO.CreateEventRequest;
 import com.event.hab.events.DTO.EventDetailsDTO;
 import com.event.hab.events.DTO.EventSummaryDTO;
-import com.event.hab.events.EventMapper;
-import com.event.hab.events.model.Event;
+import com.event.hab.events.DTO.UpdateEventRequest;
 import com.event.hab.events.service.EventService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -17,7 +16,7 @@ public class EventController {
     }
 
     @GetMapping("/events")
-    public List<EventSummaryDTO> getAllEvents(){//DTO
+    public List<EventSummaryDTO> getAllEvents(){
       return eventService.getAll();
     }
 
@@ -32,12 +31,14 @@ public class EventController {
 
     }
 
-    @PutMapping("/updateEvent")
-    public void updateEvent(){
+    @PutMapping("/updateEvent/{id}")
+    public EventDetailsDTO updateEvent(@PathVariable Long id, @RequestBody UpdateEventRequest request){
+        return eventService.updateEvent(id,request);
     }
 
-    @DeleteMapping("/deleteEvent")
-    public void deleteEvent(){
+    @DeleteMapping("/deleteEvent/{id}")
+    public String deleteEvent(@PathVariable Long id){
+        return eventService.deleteEvent(id);
     }
 
 
