@@ -71,7 +71,7 @@ public class JwtService {
     public boolean validateToken(String token, UserDetails userDetails){
         try {
             return extractEmail(token).equals(userDetails.getUsername()) &&
-                    extractExpiration(token).before(new Date());
+                    extractExpiration(token).after(new Date());
         }catch (IllegalArgumentException e){
             return false;
         }

@@ -11,6 +11,7 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface EventMapper {
+    @Mapping(target = "organizerEmail", source = "organizer.email")
     EventDetailsDTO toEventDetailsDto(Event event);
 
     @Mapping(target = "id", ignore = true)
