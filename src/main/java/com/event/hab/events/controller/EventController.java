@@ -6,7 +6,7 @@ import com.event.hab.events.DTO.UpdateEventRequest;
 import com.event.hab.events.service.EventService;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @RestController
 public class EventController {
     final EventService eventService;

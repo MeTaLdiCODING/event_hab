@@ -5,6 +5,9 @@ import com.event.hab.auth.DTO.RegisterRequest;
 import com.event.hab.auth.model.User;
 import com.event.hab.auth.model.UserRole;
 import com.event.hab.auth.repository.UserRepository;
+import com.event.hab.common.castomException.InvalidCredentialsException;
+import com.event.hab.common.castomException.UserAlreadyExistsException;
+import com.event.hab.common.castomException.UserNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,7 +31,7 @@ public class AuthService {
     public String register(RegisterRequest request){
         //если пользователь стаким email найден
        if(!userRepository.findByEmail(request.getEmail()).isEmpty()){
-           throw new IllegalArgumentException("Пользователь с таким email уже существует");
+           throw new UserAlreadyExistsException();
        }
        else {
            User user = new User();
@@ -44,13 +47,13 @@ public class AuthService {
     public String login(LoginRequest request){
         Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
         if(optionalUser.isEmpty()){
-            throw new IllegalArgumentException("Пользователь с таким email не найден!");
+            throw new UserNotFoundException();
         }
         else {
             User user = optionalUser.get();
             boolean isMatch = passwordEncoder.matches(request.getPassword(), user.getPasswordHash());
             if (!isMatch){
-                throw new IllegalArgumentException("Не верный пароль!");
+                throw new InvalidCredentialsException();
             }
             else {
                 UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
