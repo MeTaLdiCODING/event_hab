@@ -29,8 +29,7 @@ public class AuthService {
     }
 
     public String register(RegisterRequest request){
-        //если пользователь стаким email найден
-       if(!userRepository.findByEmail(request.getEmail()).isEmpty()){
+        if(userRepository.findByEmail(request.getEmail()).isPresent()){
            throw new UserAlreadyExistsException();
        }
        else {
