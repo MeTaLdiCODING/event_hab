@@ -15,6 +15,6 @@ public class SecurityUtils {
             throw new AuthenticationRequiredException();
         }
         return userDetails.getUsername();
-
+//крч дальше места в ивсервисе переэтовать с этой хренью а потом глобал обработчик чик пик чик
     }
 }
