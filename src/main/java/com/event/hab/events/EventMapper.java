@@ -12,6 +12,7 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "spring")
 public interface EventMapper {
     @Mapping(target = "organizerEmail", source = "organizer.email")
+    @Mapping(target = "organizerId", source = "organizer.id")
     EventDetailsDTO toEventDetailsDto(Event event);
 
     @Mapping(target = "id", ignore = true)
@@ -23,5 +24,7 @@ public interface EventMapper {
     @Mapping(target = "createDate", ignore = true)
     @Mapping(target = "organizer", ignore = true)
     void updateEventFromDto(UpdateEventRequest request, @MappingTarget Event event);
+
+    @Mapping(target = "coverImageUrl", expression = "java(event.getImageUrls().isEmpty() ? null : event.getImageUrls().get(0))")
     EventSummaryDTO toEventSummaryDto(Event event);
 }
