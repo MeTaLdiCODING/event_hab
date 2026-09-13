@@ -51,7 +51,7 @@ public class Event {
     private int maxParticipants;
 
     @Column(nullable = false)
-    private int currentParticipants =0;
+    private int currentParticipants=0;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)

@@ -15,10 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.event.hab.events.model.Event;
 import com.event.hab.events.EventMapper;
-
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Service
 public class EventService {
@@ -38,13 +36,13 @@ public class EventService {
             Type type,
             BigDecimal minPrice,
             BigDecimal maxPrice,
-            LocalDate dateFrom,
-            LocalDate dateTo,
+            LocalDateTime dateFrom,
+            LocalDateTime dateTo,
             String search) {
-        return eventRepository.findAll()
-                .stream()
-                .map(eventMapper::toEventSummaryDto)
-                .toList();/////////////////
+        if (search == null) search = "";
+        Page<Event> eventPage = eventRepository.getAllFilter(type,minPrice,maxPrice,dateFrom,dateTo,search,pageable);
+        Page<EventSummaryDTO> dtoPage = eventPage.map(eventMapper::toEventSummaryDto);
+        return dtoPage;
     }
 //
     public EventDetailsDTO getEventById(Long id) {
