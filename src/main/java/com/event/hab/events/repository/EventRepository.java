@@ -23,10 +23,11 @@ public interface EventRepository extends JpaRepository<Event,Long> {
             AND (:type IS NULL OR e.type = :type)
             AND (:minPrice IS NULL OR e.price >= :minPrice)
             AND (:maxPrice IS NULL OR e.price <= :maxPrice)
-            AND (:dateFrom IS NULL OR e.eventDate >= :dateFrom)
-            AND (:dateTo IS NULL OR e.eventDate <= :dateTo)
-            AND (:search IS NULL OR LOWER(e.name) LIKE LOWER(CONCAT('%', :search, '%'))
-            OR LOWER(e.description) LIKE LOWER(CONCAT('%', :search, '%')))
+                    AND (CAST(:dateFrom AS timestamp) IS NULL OR e.eventDate >= :dateFrom)
+                    AND (CAST(:dateTo AS timestamp) IS NULL OR e.eventDate <= :dateTo)
+                    AND (CAST(:search AS string) IS NULL
+                                 OR LOWER(e.name) LIKE LOWER(CONCAT('%', CAST(:search AS string), '%'))
+                                 OR LOWER(e.description) LIKE LOWER(CONCAT('%', CAST(:search AS string), '%')))
             """
     )
     public Page<Event> getAllFilter(
