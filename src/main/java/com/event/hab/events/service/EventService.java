@@ -3,15 +3,21 @@ import com.event.hab.common.castomException.OrganizerMismatchException;
 import com.event.hab.common.castomException.EventNotFoundException;
 import com.event.hab.common.castomException.UserNotFoundException;
 import com.event.hab.common.securityUtils.SecurityUtils;
+import com.event.hab.events.model.Type;
 import com.event.hab.events.repository.EventRepository;
 import com.event.hab.auth.repository.UserRepository;
 import com.event.hab.events.DTO.UpdateEventRequest;
 import com.event.hab.events.DTO.CreateEventRequest;
 import com.event.hab.events.DTO.EventSummaryDTO;
 import com.event.hab.events.DTO.EventDetailsDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.event.hab.events.model.Event;
 import com.event.hab.events.EventMapper;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -27,11 +33,18 @@ public class EventService {
     }
 
 //
-    public List<EventSummaryDTO> getAll() {
+    public Page<EventSummaryDTO> getAll(
+            Pageable pageable,
+            Type type,
+            BigDecimal minPrice,
+            BigDecimal maxPrice,
+            LocalDate dateFrom,
+            LocalDate dateTo,
+            String search) {
         return eventRepository.findAll()
                 .stream()
                 .map(eventMapper::toEventSummaryDto)
-                .toList();
+                .toList();/////////////////
     }
 //
     public EventDetailsDTO getEventById(Long id) {
