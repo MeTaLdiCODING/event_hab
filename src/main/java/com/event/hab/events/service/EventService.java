@@ -38,9 +38,10 @@ public class EventService {
             BigDecimal maxPrice,
             LocalDateTime dateFrom,
             LocalDateTime dateTo,
+            String organizer,
             String search) {
         if (search == null) search = "";
-        Page<Event> eventPage = eventRepository.getAllFilter(type,minPrice,maxPrice,dateFrom,dateTo,search,pageable);
+        Page<Event> eventPage = eventRepository.getAllFilter(type,minPrice,maxPrice,dateFrom,dateTo,organizer,search,pageable);
         Page<EventSummaryDTO> dtoPage = eventPage.map(eventMapper::toEventSummaryDto);
         return dtoPage;
     }
@@ -85,4 +86,6 @@ public class EventService {
 
         }
     }
+
+
 }

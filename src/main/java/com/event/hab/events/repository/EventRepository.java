@@ -23,11 +23,12 @@ public interface EventRepository extends JpaRepository<Event,Long> {
             AND (:type IS NULL OR e.type = :type)
             AND (:minPrice IS NULL OR e.price >= :minPrice)
             AND (:maxPrice IS NULL OR e.price <= :maxPrice)
-                    AND (CAST(:dateFrom AS timestamp) IS NULL OR e.eventDate >= :dateFrom)
-                    AND (CAST(:dateTo AS timestamp) IS NULL OR e.eventDate <= :dateTo)
-                    AND (CAST(:search AS string) IS NULL
-                                 OR LOWER(e.name) LIKE LOWER(CONCAT('%', CAST(:search AS string), '%'))
-                                 OR LOWER(e.description) LIKE LOWER(CONCAT('%', CAST(:search AS string), '%')))
+            AND (CAST(:dateFrom AS timestamp) IS NULL OR e.eventDate >= :dateFrom)
+            AND (CAST(:dateTo AS timestamp) IS NULL OR e.eventDate <= :dateTo)
+            AND (:organizer IS NULL OR e.organizer.email = :organizer)
+            AND (CAST(:search AS string) IS NULL
+            OR LOWER(e.name) LIKE LOWER(CONCAT('%', CAST(:search AS string), '%'))
+            OR LOWER(e.description) LIKE LOWER(CONCAT('%', CAST(:search AS string), '%')))
             """
     )
     public Page<Event> getAllFilter(
@@ -36,6 +37,7 @@ public interface EventRepository extends JpaRepository<Event,Long> {
             @Param("maxPrice") BigDecimal maxPrice,
             @Param("dateFrom") LocalDateTime dateFrom,
             @Param("dateTo") LocalDateTime dateTo,
+            @Param("organizer") String organizer,
             @Param("search") String search,
             Pageable pageable);
 }

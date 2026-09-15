@@ -28,11 +28,13 @@ public class EventController {
             @RequestParam(required = false) BigDecimal maxPrice,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateFrom,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateTo,
+            @RequestParam(required = false) String organizer,
             @RequestParam(required = false) String search
 
     ){
-      return eventService.getAll(pageable,type,minPrice,maxPrice,dateFrom,dateTo,search);
+      return eventService.getAll(pageable,type,minPrice,maxPrice,dateFrom,dateTo,organizer,search);
     }
+
 
     @GetMapping("/eventById/{id}")
     public EventDetailsDTO getEventById(@PathVariable Long id){
