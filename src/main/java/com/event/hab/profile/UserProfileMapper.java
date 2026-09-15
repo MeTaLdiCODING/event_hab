@@ -9,9 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface UserProfileMapper {
 
-    @Mapping(target = "email", source = "user.email")
     @Mapping(target = "fullName", source = "user.fullName")
-    @Mapping(target = "createdAt", source = "user.createdAt")
     UserProfileDetailsDTO toDetailsDto(UserProfile profile);
 
     @Mapping(target = "email", source = "user.email")
