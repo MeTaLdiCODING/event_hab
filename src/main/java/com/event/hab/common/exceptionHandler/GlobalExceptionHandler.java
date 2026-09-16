@@ -26,6 +26,16 @@ public class GlobalExceptionHandler {
                 .body(errorDto);
     }
 
+
+    @ExceptionHandler(ProfileNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleProfileNotFoundException(ProfileNotFoundException e){
+        log.warn("ProfileNotFoundException: {}", e.getMessage());
+        var errorDto = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(errorDto);
+    }
+
     @ExceptionHandler(EventNotFoundException.class)
     public ResponseEntity<ErrorResponse> eventNotFound(EventNotFoundException e){
         log.warn("EventNotFound: {}", e.getMessage());
