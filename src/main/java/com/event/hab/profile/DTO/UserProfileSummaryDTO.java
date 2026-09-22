@@ -14,4 +14,5 @@ public class UserProfileSummaryDTO {
     private String avatarUrl;
     private double rating;
     private int completedEventsCount;
+    private String email;
 }

@@ -8,6 +8,8 @@ import com.event.hab.auth.repository.UserRepository;
 import com.event.hab.common.castomException.InvalidCredentialsException;
 import com.event.hab.common.castomException.UserAlreadyExistsException;
 import com.event.hab.common.castomException.UserNotFoundException;
+import com.event.hab.profile.service.UserProfileService;
+import jakarta.transaction.Transactional;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,17 +19,20 @@ import java.util.Optional;
 @Service
 
 public class AuthService {
+    final UserProfileService userProfileService;
     final UserRepository userRepository;
     final JwtService jwtService;
     private final BCryptPasswordEncoder passwordEncoder;
 
 
-    public AuthService(BCryptPasswordEncoder passwordEncoder, UserRepository userRepository, JwtService jwtService) {
+    public AuthService(UserProfileService userProfileService, BCryptPasswordEncoder passwordEncoder, UserRepository userRepository, JwtService jwtService) {
+        this.userProfileService = userProfileService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
     }
 
+    @Transactional
     public String register(RegisterRequest request){
         if(userRepository.findByEmail(request.getEmail()).isPresent()){
            throw new UserAlreadyExistsException();
@@ -39,6 +44,7 @@ public class AuthService {
            user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
            user.setUserRole(UserRole.PARTICIPANT);
            userRepository.save(user);
+           userProfileService.createProfileForUser(user);
            return "Пользователь зарегестрирован";
        }
     }
