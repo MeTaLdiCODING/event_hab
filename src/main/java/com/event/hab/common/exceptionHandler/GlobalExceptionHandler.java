@@ -45,6 +45,16 @@ public class GlobalExceptionHandler {
                 .body(errorDto);
     }
 
+    @ExceptionHandler(RegistrationNotFoundException.class)
+    public ResponseEntity<ErrorResponse> registrationNotFound(RegistrationNotFoundException e){
+        log.warn("RegistrationNotFound: {}", e.getMessage());
+        var errorDto = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(errorDto);
+    }
+
+
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<ErrorResponse> invalidCredentials(InvalidCredentialsException e){
         log.warn("InvalidCredentials: {}", e.getMessage());

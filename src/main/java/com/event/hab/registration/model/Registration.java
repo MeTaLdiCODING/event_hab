@@ -43,4 +43,5 @@ public class Registration {
     @CreationTimestamp
     private LocalDateTime registeredAt;
 
+
 }
