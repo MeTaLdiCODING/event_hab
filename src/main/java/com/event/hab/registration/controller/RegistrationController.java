@@ -18,7 +18,7 @@ public class RegistrationController {
 
     @GetMapping("/users/me/tickets")
     public List<RegistrationResponse> getAllRegistrations(){
-       return registrationService.getAllRegistration();
+       return registrationService.getAllRegistrations();
     }
 
     @GetMapping("/users/me/tickets/{eventId}")

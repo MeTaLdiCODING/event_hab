@@ -22,15 +22,15 @@ public class Registration {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JoinColumn(name = "user_id", nullable = false)
     @ManyToOne
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "event_id", nullable = false)
     private Event event;
 
     @Column(nullable = false)
-    @JoinColumn(name = "event_id", nullable = false)
     @Enumerated(EnumType.STRING)
     private RegistrationStatus registrationStatus;
 

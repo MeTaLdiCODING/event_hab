@@ -174,6 +174,13 @@
           border-color: var(--accent);
         }
 
+        .btn-success {
+          background: var(--success);
+          color: white;
+        }
+
+        .btn-success:hover { background: #45a049; }
+
         .btn-ghost {
           background: transparent;
           color: var(--text-secondary);
@@ -361,21 +368,6 @@
           color: white;
         }
 
-        .event-status {
-          position: relative;
-          z-index: 1;
-          padding: 6px 12px;
-          border-radius: 100px;
-          font-size: 11px;
-          font-weight: 700;
-          letter-spacing: 0.5px;
-          text-transform: uppercase;
-        }
-
-        .status-active { background: rgba(76, 175, 80, 0.9); color: white; }
-        .status-completed { background: rgba(255, 167, 38, 0.9); color: white; }
-        .status-cancelled { background: rgba(239, 83, 80, 0.9); color: white; }
-
         .event-body {
           padding: 20px;
           flex: 1;
@@ -435,6 +427,135 @@
           display: flex;
           align-items: center;
           gap: 6px;
+        }
+
+        /* ============ TICKET CARD ============ */
+        .ticket-card {
+          background: var(--surface);
+          border-radius: var(--radius-lg);
+          padding: 24px;
+          border: 1px solid var(--border);
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .ticket-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 4px;
+          background: linear-gradient(90deg, var(--accent), #C72C41);
+        }
+
+        .ticket-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 16px;
+        }
+
+        .ticket-title {
+          font-size: 20px;
+          font-weight: 700;
+          letter-spacing: -0.3px;
+          margin-bottom: 4px;
+        }
+
+        .ticket-number {
+          font-family: monospace;
+          font-size: 11px;
+          color: var(--text-muted);
+          padding: 4px 8px;
+          background: var(--surface-2);
+          border-radius: 4px;
+          display: inline-block;
+        }
+
+        .ticket-info {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 16px;
+          color: var(--text-secondary);
+          font-size: 13px;
+        }
+
+        .ticket-info-item {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .ticket-actions {
+          display: flex;
+          gap: 8px;
+          margin-top: auto;
+          padding-top: 12px;
+          border-top: 1px solid var(--border);
+        }
+
+        /* ============ PARTICIPANTS LIST ============ */
+        .participants-list {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          margin-top: 12px;
+          max-height: 280px;
+          overflow-y: auto;
+        }
+
+        .participant-item {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 12px;
+          background: var(--surface-2);
+          border-radius: var(--radius-sm);
+          transition: background 0.2s;
+        }
+
+        .participant-item:hover { background: var(--surface-3); }
+
+        .participant-avatar {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, var(--accent), #C72C41);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+          font-size: 13px;
+          flex-shrink: 0;
+        }
+
+        .participant-info { flex: 1; min-width: 0; }
+
+        .participant-name {
+          font-size: 14px;
+          font-weight: 600;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .participant-email {
+          font-size: 12px;
+          color: var(--text-muted);
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .participant-ticket {
+          font-size: 11px;
+          color: var(--text-muted);
+          font-family: monospace;
+          flex-shrink: 0;
         }
 
         /* ============ EMPTY STATE ============ */
@@ -630,7 +751,6 @@
           margin-top: 6px;
         }
 
-        /* Image inputs */
         .image-inputs {
           display: flex;
           flex-direction: column;
@@ -931,6 +1051,21 @@
           font-weight: 600;
         }
 
+        /* ============ TICKET BADGE ============ */
+        .ticket-badge {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 12px 16px;
+          background: rgba(76, 175, 80, 0.1);
+          border: 1px solid var(--success);
+          border-radius: var(--radius);
+          color: var(--success);
+          font-size: 14px;
+          font-weight: 600;
+          margin-bottom: 8px;
+        }
+
         /* ============ RESPONSIVE ============ */
         @media (max-width: 768px) {
           .header-inner { padding: 12px 16px; gap: 12px; flex-wrap: wrap; }
@@ -971,33 +1106,27 @@
         </div>
 
         <div class="search-bar">
-      <span class="search-icon">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <path d="m21 21-4.35-4.35"></path>
-        </svg>
-      </span>
+            <span class="search-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+            </span>
             <input type="text" id="searchInput" placeholder="Поиск событий..." oninput="onSearchInput()">
         </div>
 
-        <div class="header-actions" id="headerActions">
-            <!-- Заполняется JS -->
-        </div>
+        <div class="header-actions" id="headerActions"></div>
     </div>
 </header>
 
 <!-- ============ MAIN ============ -->
 <main class="main">
-    <div id="pageContent">
-        <!-- Динамический контент -->
-    </div>
+    <div id="pageContent"></div>
 </main>
 
 <!-- ============ MODAL CONTAINER ============ -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
-    <div class="modal" id="modalContent" onclick="event.stopPropagation()">
-        <!-- Динамический контент -->
-    </div>
+    <div class="modal" id="modalContent" onclick="event.stopPropagation()"></div>
 </div>
 
 <!-- ============ TOASTS ============ -->
@@ -1014,1288 +1143,1503 @@
     // СОСТОЯНИЕ
     // ============================================================
     const state = {
-      token: localStorage.getItem('token') || null,
-      email: localStorage.getItem('email') || null,
-      events: [],
-      currentPage: 0,
-      totalPages: 0,
-      totalElements: 0,
-      filterType: null,
-      filterMinPrice: null,
-      filterMaxPrice: null,
-      filterDateFrom: null,
-      filterDateTo: null,
-      searchQuery: '',
-      searchDebounce: null,
-      currentEvent: null,
-      editingEvent: null,
+        token: localStorage.getItem('token') || null,
+        email: localStorage.getItem('email') || null,
+        events: [],
+        currentPage: 0,
+        totalPages: 0,
+        totalElements: 0,
+        filterType: null,
+        filterMinPrice: null,
+        filterMaxPrice: null,
+        filterDateFrom: null,
+        filterDateTo: null,
+        searchQuery: '',
+        searchDebounce: null,
+        currentEvent: null,
+        editingEvent: null,
+        myTickets: [],
     };
 
     // ============================================================
     // API ХЕЛПЕРЫ
     // ============================================================
-    async function apiCall(path, options = {}) {
-      const headers = {
+async function apiCall(path, options = {}) {
+    const headers = {
         'Content-Type': 'application/json',
         ...(options.headers || {})
-      };
+    };
 
-      if (state.token && !options.noAuth) {
+    if (state.token && !options.noAuth) {
         headers['Authorization'] = `Bearer ${state.token}`;
-      }
+    }
 
-      const response = await fetch(`${API_URL}${path}`, {
+    const response = await fetch(`${API_URL}${path}`, {
         ...options,
         headers,
-      });
+    });
 
-      if (response.status === 401 || response.status === 403) {
-        if (!options.noAuth) {
-          logout();
-          throw new Error('Требуется авторизация');
-        }
-      }
-
-      const text = await response.text();
-      let data = null;
-      try {
+    const text = await response.text();
+    let data = null;
+    try {
         data = text ? JSON.parse(text) : null;
-      } catch {
+    } catch {
         data = text;
-      }
-
-      if (!response.ok) {
-        const message = data?.message || data?.error || data || `Ошибка ${response.status}`;
-        throw new Error(message);
-      }
-
-      return data;
     }
+
+    // ← НОВОЕ: обработка истёкшего токена
+    if (response.status === 401 && state.token && !options.noAuth) {
+        handleUnauthorized();
+        const error = new Error('Сессия истекла');
+        error.status = 401;
+        throw error;
+    }
+
+    if (!response.ok) {
+        const message = data?.message || data?.error || data || `Ошибка ${response.status}`;
+        const error = new Error(message);
+        error.status = response.status;
+        throw error;
+    }
+
+    return data;
+}
 
     // ============================================================
     // УТИЛИТЫ
     // ============================================================
     function formatPrice(price) {
-      if (price === null || price === undefined) return '—';
-      const num = Number(price);
-      if (num === 0) return 'Бесплатно';
-      return new Intl.NumberFormat('ru-RU', {
-        style: 'currency',
-        currency: 'RUB',
-        maximumFractionDigits: 0,
-      }).format(num);
+        if (price === null || price === undefined) return '—';
+        const num = Number(price);
+        if (num === 0) return 'Бесплатно';
+        return new Intl.NumberFormat('ru-RU', {
+            style: 'currency',
+            currency: 'RUB',
+            maximumFractionDigits: 0,
+        }).format(num);
     }
 
     function formatDate(dateString) {
-      if (!dateString) return '—';
-      const date = new Date(dateString);
-      return new Intl.DateTimeFormat('ru-RU', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-      }).format(date);
+        if (!dateString) return '—';
+        const date = new Date(dateString);
+        return new Intl.DateTimeFormat('ru-RU', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+        }).format(date);
     }
 
     function formatDateShort(dateString) {
-      if (!dateString) return '—';
-      const date = new Date(dateString);
-      return new Intl.DateTimeFormat('ru-RU', {
-        day: 'numeric',
-        month: 'short',
-        hour: '2-digit',
-        minute: '2-digit',
-      }).format(date);
+        if (!dateString) return '—';
+        const date = new Date(dateString);
+        return new Intl.DateTimeFormat('ru-RU', {
+            day: 'numeric',
+            month: 'short',
+            hour: '2-digit',
+            minute: '2-digit',
+        }).format(date);
     }
 
-    function getInitials(email) {
-      if (!email) return '?';
-      return email.substring(0, 2).toUpperCase();
+    function getInitials(str) {
+        if (!str) return '?';
+        return str.substring(0, 2).toUpperCase();
     }
 
     function escapeHtml(str) {
-      if (!str) return '';
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
     }
 
     const TYPE_LABELS = {
-      MUSIC: '🎵 Музыка',
-      GAMING: '🎮 Игры',
-      FOOD: '🍔 Еда',
-      BUSINESS: '💼 Бизнес',
-      WALK: '🚶 Прогулки',
-      HOBBIES: '🎨 Хобби',
-      ANOTHER: '✨ Другое',
-    };
-
-    const STATUS_LABELS = {
-      ACTIVE: 'Активно',
-      COMPLETED: 'Завершено',
-      CANCELLED: 'Отменено',
+        MUSIC: '🎵 Музыка',
+        GAMING: '🎮 Игры',
+        FOOD: '🍔 Еда',
+        BUSINESS: '💼 Бизнес',
+        WALK: '🚶 Прогулки',
+        HOBBIES: '🎨 Хобби',
+        ANOTHER: '✨ Другое',
     };
 
     function getTypeLabel(type) {
-      return TYPE_LABELS[type] || type || 'Событие';
+        return TYPE_LABELS[type] || type || 'Событие';
     }
 
-    // Градиент для плейсхолдера обложки
     function getPlaceholderGradient(seed) {
-      const gradients = [
-        'linear-gradient(135deg, #EE4540, #801336)',
-        'linear-gradient(135deg, #510A32, #EE4540)',
-        'linear-gradient(135deg, #2D142C, #C72C41)',
-        'linear-gradient(135deg, #C72C41, #510A32)',
-        'linear-gradient(135deg, #801336, #2D142C)',
-      ];
-      const index = seed ? seed.length % gradients.length : 0;
-      return gradients[index];
+        const gradients = [
+            'linear-gradient(135deg, #EE4540, #801336)',
+            'linear-gradient(135deg, #510A32, #EE4540)',
+            'linear-gradient(135deg, #2D142C, #C72C41)',
+            'linear-gradient(135deg, #C72C41, #510A32)',
+            'linear-gradient(135deg, #801336, #2D142C)',
+        ];
+        const index = seed ? seed.length % gradients.length : 0;
+        return gradients[index];
     }
 
     // ============================================================
     // TOAST
     // ============================================================
     function showToast(message, type = 'info', title = null) {
-      const container = document.getElementById('toastContainer');
-      const toast = document.createElement('div');
-      toast.className = `toast ${type}`;
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
 
-      const icons = {
-        success: '✓',
-        error: '✕',
-        warning: '⚠',
-        info: 'ℹ',
-      };
+        const icons = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+        const titles = { success: 'Успешно', error: 'Ошибка', warning: 'Внимание', info: 'Информация' };
 
-      const titles = {
-        success: 'Успешно',
-        error: 'Ошибка',
-        warning: 'Внимание',
-        info: 'Информация',
-      };
+        toast.innerHTML = `
+            <div class="toast-icon">${icons[type] || 'ℹ'}</div>
+            <div class="toast-content">
+                <div class="toast-title">${escapeHtml(title || titles[type] || '')}</div>
+                <div class="toast-message">${escapeHtml(message)}</div>
+            </div>
+        `;
 
-      toast.innerHTML = `
-        <div class="toast-icon">${icons[type] || 'ℹ'}</div>
-        <div class="toast-content">
-          <div class="toast-title">${escapeHtml(title || titles[type] || '')}</div>
-          <div class="toast-message">${escapeHtml(message)}</div>
-        </div>
-      `;
+        container.appendChild(toast);
 
-      container.appendChild(toast);
-
-      setTimeout(() => {
-        toast.style.animation = 'slideIn 0.3s reverse';
-        setTimeout(() => toast.remove(), 300);
-      }, 4000);
+        setTimeout(() => {
+            toast.style.animation = 'slideIn 0.3s reverse';
+            setTimeout(() => toast.remove(), 300);
+        }, 4000);
     }
 
     // ============================================================
     // MODAL
     // ============================================================
     function openModal(contentHtml, size = '') {
-      const overlay = document.getElementById('modalOverlay');
-      const modal = document.getElementById('modalContent');
-      modal.className = `modal ${size}`;
-      modal.innerHTML = contentHtml;
-      overlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
+        const overlay = document.getElementById('modalOverlay');
+        const modal = document.getElementById('modalContent');
+        modal.className = `modal ${size}`;
+        modal.innerHTML = contentHtml;
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
     }
 
     function closeModal() {
-      const overlay = document.getElementById('modalOverlay');
-      overlay.classList.remove('active');
-      document.body.style.overflow = '';
-      state.editingEvent = null;
+        const overlay = document.getElementById('modalOverlay');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+        state.editingEvent = null;
     }
 
     function closeModalOnOverlay(e) {
-      if (e.target === e.currentTarget) closeModal();
+        if (e.target === e.currentTarget) closeModal();
     }
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
+        if (e.key === 'Escape') closeModal();
     });
 
     // ============================================================
     // АУТЕНТИФИКАЦИЯ
     // ============================================================
     function logout() {
-      state.token = null;
-      state.email = null;
-      localStorage.removeItem('token');
-      localStorage.removeItem('email');
-      renderHeader();
-      showCatalog();
-      showToast('Вы вышли из аккаунта', 'info');
+        state.token = null;
+        state.email = null;
+        localStorage.removeItem('token');
+        localStorage.removeItem('email');
+        renderHeader();
+        showCatalog();
+        showToast('Вы вышли из аккаунта', 'info');
     }
+function handleUnauthorized() {
+    if (!state.token) return;
 
-    function renderHeader() {
-      const container = document.getElementById('headerActions');
-      if (state.token) {
-        container.innerHTML = `
-          <button class="btn btn-primary" onclick="openCreateEventModal()">
-            <span>+</span> Создать
-          </button>
-          <button class="btn btn-secondary btn-sm" onclick="showMyEvents()">
-            Мои события
-          </button>
-          <div class="avatar" onclick="showProfileMenu()" title="${escapeHtml(state.email || '')}">
-            ${getInitials(state.email)}
-          </div>
-        `;
-      } else {
-        container.innerHTML = `
-          <button class="btn btn-secondary" onclick="openLoginModal()">Войти</button>
-          <button class="btn btn-primary" onclick="openRegisterModal()">Регистрация</button>
-        `;
-      }
-    }
+    state.token = null;
+    state.email = null;
+    localStorage.removeItem('token');
+    localStorage.removeItem('email');
 
-async function showProfileMenu() {
-  openModal('<div class="loader"></div>');
-
-  try {
-    const profile = await apiCall('/profiles/me');
-    renderProfileMenu(profile);
-  } catch (e) {
-    openModal(`
-      <div class="modal-header">
-        <div class="modal-title">Профиль</div>
-        <button class="modal-close" onclick="closeModal()">✕</button>
-      </div>
-      <div class="modal-body">
-        <p class="text-secondary">Не удалось загрузить профиль: ${escapeHtml(e.message)}</p>
-      </div>
-    `);
-  }
-}
-// ============================================================
-// ПРОФИЛЬ
-// ============================================================
-async function openEditProfileModal() {
-  if (!state.token) {
-    showToast('Сначала войдите', 'warning');
+    closeModal();
+    renderHeader();
+    showCatalog();
+    showToast('Сессия истекла. Войдите снова.', 'warning');
     openLoginModal();
-    return;
-  }
-
-  openModal('<div class="loader"></div>');
-
-  try {
-    const profile = await apiCall('/profiles/me');
-    renderEditProfileForm(profile);
-  } catch (e) {
-    showToast(e.message || 'Ошибка загрузки профиля', 'error');
-    closeModal();
-  }
 }
+    function renderHeader() {
+        const container = document.getElementById('headerActions');
+        if (state.token) {
+            container.innerHTML = `
+                <button class="btn btn-primary" onclick="openCreateEventModal()">
+                    <span>+</span> Создать
+                </button>
+                <button class="btn btn-secondary btn-sm" onclick="showMyEvents()">
+                    Мои события
+                </button>
+                <button class="btn btn-secondary btn-sm" onclick="showMyTickets()">
+                    🎟 Мои билеты
+                </button>
+                <div class="avatar" onclick="showProfileMenu()" title="${escapeHtml(state.email || '')}">
+                    ${getInitials(state.email)}
+                </div>
+            `;
+        } else {
+            container.innerHTML = `
+                <button class="btn btn-secondary" onclick="openLoginModal()">Войти</button>
+                <button class="btn btn-primary" onclick="openRegisterModal()">Регистрация</button>
+            `;
+        }
+    }
 
-function renderEditProfileForm(profile) {
-  openModal(`
-    <div class="modal-header">
-      <div class="modal-title">Редактировать профиль</div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <label class="form-label">Полное имя</label>
-        <input type="text" class="form-input" value="${escapeHtml(profile.fullName || '')}" disabled style="opacity: 0.6; cursor: not-allowed;">
-        <div class="form-hint">Имя меняется только через поддержку</div>
-      </div>
+    async function showProfileMenu() {
+        openModal('<div class="loader"></div>');
+        try {
+            const profile = await apiCall('/profiles/me');
+            renderProfileMenu(profile);
+        } catch (e) {
+            openModal(`
+                <div class="modal-header">
+                    <div class="modal-title">Профиль</div>
+                    <button class="modal-close" onclick="closeModal()">✕</button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-secondary">Не удалось загрузить профиль: ${escapeHtml(e.message)}</p>
+                </div>
+            `);
+        }
+    }
 
-      <div class="form-group">
-        <label class="form-label">О себе</label>
-        <textarea class="form-textarea" id="editProfileBio" maxlength="500" placeholder="Расскажите о себе...">${escapeHtml(profile.bio || '')}</textarea>
-        <div class="form-hint">Максимум 500 символов</div>
-      </div>
+    function renderProfileMenu(profile) {
+        const avatar = profile.avatarUrl
+            ? `background-image: url('${escapeHtml(profile.avatarUrl)}'); background-size: cover;`
+            : '';
 
-      <div class="form-group">
-        <label class="form-label">Ссылка на аватар</label>
-        <input type="url" class="form-input" id="editProfileAvatar" placeholder="https://example.com/avatar.jpg" value="${escapeHtml(profile.avatarUrl || '')}">
-      </div>
+        openModal(`
+            <div class="modal-header">
+                <div class="modal-title">Профиль</div>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="organizer-card mb-4">
+                    <div class="organizer-avatar" style="${avatar}">
+                        ${profile.avatarUrl ? '' : getInitials(state.email)}
+                    </div>
+                    <div class="organizer-info">
+                        <div class="organizer-label">Вы вошли как</div>
+                        <div class="organizer-email">${escapeHtml(profile.fullName || state.email)}</div>
+                        <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                            ⭐ ${(profile.rating || 0).toFixed(1)} · ${profile.reviewsCount || 0} отзывов · ${profile.completedEventsCount || 0} завершённых
+                        </div>
+                    </div>
+                </div>
 
-      <div class="form-group" style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--surface-2); border-radius: 8px;">
-        <input type="checkbox" id="editProfileAllowMessages" ${profile.allowMessages ? 'checked' : ''} style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent);">
-        <label for="editProfileAllowMessages" style="cursor: pointer; font-size: 14px; color: var(--text); margin: 0;">
-          Разрешить другим пользователям писать мне
-        </label>
-      </div>
+                ${profile.bio ? `
+                    <div class="mb-4" style="padding: 12px 16px; background: var(--surface-2); border-radius: 8px; color: var(--text-secondary); font-size: 14px;">
+                        ${escapeHtml(profile.bio)}
+                    </div>
+                ` : ''}
 
-      <button class="btn btn-primary btn-block btn-lg" onclick="submitProfileForm()">
-        Сохранить изменения
-      </button>
-    </div>
-  `);
+                <button class="btn btn-block btn-primary mb-2" onclick="closeModal(); openEditProfileModal();">
+                    ✏️ Редактировать профиль
+                </button>
+                <button class="btn btn-block btn-secondary mb-2" onclick="closeModal(); showMyTickets();">
+                    🎟 Мои билеты
+                </button>
+                <button class="btn btn-block btn-secondary mb-2" onclick="closeModal(); showMyEvents();">
+                    📅 Мои события
+                </button>
+                <button class="btn btn-block btn-secondary mb-2" onclick="closeModal(); showCatalog();">
+                    🔍 Каталог событий
+                </button>
+                <button class="btn btn-block btn-danger" onclick="closeModal(); logout();">
+                    🚪 Выйти
+                </button>
+            </div>
+        `);
+    }
 
-  setTimeout(() => document.getElementById('editProfileBio')?.focus(), 100);
-}
+    // ============================================================
+    // ПРОФИЛЬ
+    // ============================================================
+    async function openEditProfileModal() {
+        if (!state.token) {
+            showToast('Сначала войдите', 'warning');
+            openLoginModal();
+            return;
+        }
 
-async function submitProfileForm() {
-  const bio = document.getElementById('editProfileBio').value.trim();
-  const avatarUrl = document.getElementById('editProfileAvatar').value.trim();
-  const allowMessages = document.getElementById('editProfileAllowMessages').checked;
+        openModal('<div class="loader"></div>');
 
-  const payload = { bio, avatarUrl, allowMessages };
+        try {
+            const profile = await apiCall('/profiles/me');
+            renderEditProfileForm(profile);
+        } catch (e) {
+            showToast(e.message || 'Ошибка загрузки профиля', 'error');
+            closeModal();
+        }
+    }
 
-  try {
-    await apiCall('/profiles/me', {
-      method: 'PUT',
-      body: JSON.stringify(payload),
-    });
-    showToast('Профиль обновлён!', 'success');
-    closeModal();
-  } catch (e) {
-    showToast(e.message || 'Ошибка сохранения', 'error');
-  }
-}
+    function renderEditProfileForm(profile) {
+        openModal(`
+            <div class="modal-header">
+                <div class="modal-title">Редактировать профиль</div>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Полное имя</label>
+                    <input type="text" class="form-input" value="${escapeHtml(profile.fullName || '')}" disabled style="opacity: 0.6; cursor: not-allowed;">
+                </div>
 
-async function openPublicProfile(userId) {
-  openModal('<div class="loader"></div>');
+                <div class="form-group">
+                    <label class="form-label">О себе</label>
+                    <textarea class="form-textarea" id="editProfileBio" maxlength="500" placeholder="Расскажите о себе...">${escapeHtml(profile.bio || '')}</textarea>
+                    <div class="form-hint">Максимум 500 символов</div>
+                </div>
 
-  try {
-    const profile = await apiCall(`/profiles/${userId}`, { noAuth: true });
-    renderPublicProfile(profile);
-  } catch (e) {
-    openModal(`
-      <div class="modal-header">
-        <div class="modal-title">Профиль</div>
-        <button class="modal-close" onclick="closeModal()">✕</button>
-      </div>
-      <div class="modal-body">
-        <p class="text-secondary">${escapeHtml(e.message)}</p>
-      </div>
-    `);
-  }
-}
+                <div class="form-group">
+                    <label class="form-label">Ссылка на аватар</label>
+                    <input type="url" class="form-input" id="editProfileAvatar" placeholder="https://example.com/avatar.jpg" value="${escapeHtml(profile.avatarUrl || '')}">
+                </div>
 
-function renderPublicProfile(profile) {
-  const avatar = profile.avatarUrl
-    ? `background-image: url('${escapeHtml(profile.avatarUrl)}'); background-size: cover;`
-    : '';
+                <div class="form-group" style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--surface-2); border-radius: 8px;">
+                    <input type="checkbox" id="editProfileAllowMessages" ${profile.allowMessages ? 'checked' : ''} style="width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent);">
+                    <label for="editProfileAllowMessages" style="cursor: pointer; font-size: 14px; color: var(--text); margin: 0;">
+                        Разрешить другим пользователям писать мне
+                    </label>
+                </div>
 
-  openModal(`
-    <div class="modal-header">
-      <div class="modal-title">Профиль организатора</div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <div style="text-align: center; margin-bottom: 24px;">
-        <div class="organizer-avatar" style="width: 80px; height: 80px; font-size: 28px; margin: 0 auto 16px; ${avatar}">
-          ${profile.avatarUrl ? '' : getInitials(profile.fullName || profile.email || '')}
-        </div>
-        <div style="font-size: 22px; font-weight: 700; margin-bottom: 4px;">
-          ${escapeHtml(profile.fullName || 'Организатор')}
-        </div>
+                <button class="btn btn-primary btn-block btn-lg" onclick="submitProfileForm()">
+                    Сохранить изменения
+                </button>
+            </div>
+        `);
 
-        <div style="display: flex; justify-content: center; gap: 24px;">
-          <div>
-            <div style="font-size: 24px; font-weight: 800; color: var(--accent);">⭐ ${profile.rating?.toFixed(1) || '0.0'}</div>
-            <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Рейтинг</div>
-          </div>
-          <div>
-            <div style="font-size: 24px; font-weight: 800;">${profile.reviewsCount || 0}</div>
-            <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Отзывов</div>
-          </div>
-          <div>
-            <div style="font-size: 24px; font-weight: 800;">${profile.completedEventsCount || 0}</div>
-            <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Событий</div>
-          </div>
-        </div>
-      </div>
+        setTimeout(() => document.getElementById('editProfileBio')?.focus(), 100);
+    }
 
-      ${profile.bio ? `
-        <div class="sidebar-label mb-2">О себе</div>
-        <div style="padding: 12px 16px; background: var(--surface-2); border-radius: 8px; color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
-          ${escapeHtml(profile.bio)}
-        </div>
-      ` : ''}
+    async function submitProfileForm() {
+        const bio = document.getElementById('editProfileBio').value.trim();
+        const avatarUrl = document.getElementById('editProfileAvatar').value.trim();
+        const allowMessages = document.getElementById('editProfileAllowMessages').checked;
 
-      <button class="btn btn-secondary btn-block" onclick="closeModal()">
-        Закрыть
-      </button>
-    </div>
-  `);
-}
+        try {
+            await apiCall('/profiles/me', {
+                method: 'PUT',
+                body: JSON.stringify({ bio, avatarUrl, allowMessages }),
+            });
+            showToast('Профиль обновлён!', 'success');
+            closeModal();
+        } catch (e) {
+            showToast(e.message || 'Ошибка сохранения', 'error');
+        }
+    }
 
-function renderProfileMenu(profile) {
-  const avatar = profile.avatarUrl
-    ? `background-image: url('${escapeHtml(profile.avatarUrl)}'); background-size: cover;`
-    : '';
+    async function openPublicProfile(userId) {
+        if (!userId) {
+            showToast('Профиль организатора недоступен', 'warning');
+            return;
+        }
+        openModal('<div class="loader"></div>');
 
-  openModal(`
-    <div class="modal-header">
-      <div class="modal-title">Профиль</div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="organizer-card mb-4">
-        <div class="organizer-avatar" style="${avatar}">
-          ${profile.avatarUrl ? '' : getInitials(state.email)}
-        </div>
-        <div class="organizer-info">
-          <div class="organizer-label">Вы вошли как</div>
-          <div class="organizer-email">${escapeHtml(profile.fullName || state.email)}</div>
-          <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
-            ⭐ ${profile.rating?.toFixed(1) || '0.0'} · ${profile.reviewsCount || 0} отзывов · ${profile.completedEventsCount || 0} завершённых
-          </div>
-        </div>
-      </div>
+        try {
+            const profile = await apiCall(`/profiles/${userId}`, { noAuth: true });
+            renderPublicProfile(profile);
+        } catch (e) {
+            openModal(`
+                <div class="modal-header">
+                    <div class="modal-title">Профиль</div>
+                    <button class="modal-close" onclick="closeModal()">✕</button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-secondary">${escapeHtml(e.message)}</p>
+                </div>
+            `);
+        }
+    }
 
-      ${profile.bio ? `
-        <div class="mb-4" style="padding: 12px 16px; background: var(--surface-2); border-radius: 8px; color: var(--text-secondary); font-size: 14px;">
-          ${escapeHtml(profile.bio)}
-        </div>
-      ` : ''}
+    function renderPublicProfile(profile) {
+        const avatar = profile.avatarUrl
+            ? `background-image: url('${escapeHtml(profile.avatarUrl)}'); background-size: cover;`
+            : '';
 
-      <button class="btn btn-block btn-primary mb-2" onclick="closeModal(); openEditProfileModal();">
-        ✏️ Редактировать профиль
-      </button>
-      <button class="btn btn-block btn-secondary mb-2" onclick="closeModal(); showMyEvents();">
-        📅 Мои события
-      </button>
-      <button class="btn btn-block btn-secondary mb-2" onclick="closeModal(); showCatalog();">
-        🔍 Каталог событий
-      </button>
-      <button class="btn btn-block btn-danger" onclick="closeModal(); logout();">
-        🚪 Выйти
-      </button>
-    </div>
-  `);
-}
+        openModal(`
+            <div class="modal-header">
+                <div class="modal-title">Профиль организатора</div>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <div class="organizer-avatar" style="width: 80px; height: 80px; font-size: 28px; margin: 0 auto 16px; ${avatar}">
+                        ${profile.avatarUrl ? '' : getInitials(profile.fullName || profile.email || '')}
+                    </div>
+                    <div style="font-size: 22px; font-weight: 700; margin-bottom: 4px;">
+                        ${escapeHtml(profile.fullName || 'Организатор')}
+                    </div>
+                    ${profile.email ? `
+                        <div style="color: var(--text-muted); font-size: 13px; margin-bottom: 16px;">
+                            ${escapeHtml(profile.email)}
+                        </div>
+                    ` : ''}
 
+                    <div style="display: flex; justify-content: center; gap: 24px;">
+                        <div>
+                            <div style="font-size: 24px; font-weight: 800; color: var(--accent);">⭐ ${(profile.rating || 0).toFixed(1)}</div>
+                            <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Рейтинг</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 24px; font-weight: 800;">${profile.reviewsCount || 0}</div>
+                            <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Отзывов</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 24px; font-weight: 800;">${profile.completedEventsCount || 0}</div>
+                            <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Событий</div>
+                        </div>
+                    </div>
+                </div>
+
+                ${profile.bio ? `
+                    <div class="sidebar-label mb-2">О себе</div>
+                    <div style="padding: 12px 16px; background: var(--surface-2); border-radius: 8px; color: var(--text-secondary); font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+                        ${escapeHtml(profile.bio)}
+                    </div>
+                ` : ''}
+
+                <button class="btn btn-secondary btn-block" onclick="closeModal()">Закрыть</button>
+            </div>
+        `);
+    }
+
+    // ============================================================
+    // ВХОД / РЕГИСТРАЦИЯ
+    // ============================================================
     function openLoginModal() {
-      openModal(`
-        <div class="modal-header">
-          <div class="modal-title">Вход</div>
-          <button class="modal-close" onclick="closeModal()">✕</button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-input" id="loginEmail" placeholder="you@example.com" autocomplete="email">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Пароль</label>
-            <input type="password" class="form-input" id="loginPassword" placeholder="••••••" autocomplete="current-password">
-          </div>
-          <button class="btn btn-primary btn-block btn-lg" onclick="doLogin()">Войти</button>
-          <p class="text-secondary" style="text-align: center; margin-top: 16px; font-size: 14px;">
-            Нет аккаунта? <a href="#" onclick="closeModal(); openRegisterModal(); return false;" style="color: var(--accent); font-weight: 600;">Зарегистрироваться</a>
-          </p>
-        </div>
-      `);
-
-      setTimeout(() => document.getElementById('loginEmail')?.focus(), 100);
-
-      document.getElementById('loginEmail')?.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') document.getElementById('loginPassword')?.focus();
-      });
-      document.getElementById('loginPassword')?.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') doLogin();
-      });
+        openModal(`
+            <div class="modal-header">
+                <div class="modal-title">Вход</div>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="loginEmail" placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Пароль</label>
+                    <input type="password" class="form-input" id="loginPassword" placeholder="••••••">
+                </div>
+                <button class="btn btn-primary btn-block btn-lg" onclick="doLogin()">Войти</button>
+                <p class="text-secondary" style="text-align: center; margin-top: 16px; font-size: 14px;">
+                    Нет аккаунта? <a href="#" onclick="closeModal(); openRegisterModal(); return false;" style="color: var(--accent); font-weight: 600;">Зарегистрироваться</a>
+                </p>
+            </div>
+        `);
+        setTimeout(() => document.getElementById('loginEmail')?.focus(), 100);
     }
 
     function openRegisterModal() {
-      openModal(`
-        <div class="modal-header">
-          <div class="modal-title">Регистрация</div>
-          <button class="modal-close" onclick="closeModal()">✕</button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label class="form-label">Email</label>
-            <input type="email" class="form-input" id="regEmail" placeholder="you@example.com" autocomplete="email">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Полное имя</label>
-            <input type="text" class="form-input" id="regFullName" placeholder="Иван Иванов" autocomplete="name">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Пароль</label>
-            <input type="password" class="form-input" id="regPassword" placeholder="Минимум 6 символов" autocomplete="new-password">
-            <div class="form-hint">Минимум 6 символов</div>
-          </div>
-          <button class="btn btn-primary btn-block btn-lg" onclick="doRegister()">Создать аккаунт</button>
-          <p class="text-secondary" style="text-align: center; margin-top: 16px; font-size: 14px;">
-            Уже есть аккаунт? <a href="#" onclick="closeModal(); openLoginModal(); return false;" style="color: var(--accent); font-weight: 600;">Войти</a>
-          </p>
-        </div>
-      `);
-
-      setTimeout(() => document.getElementById('regEmail')?.focus(), 100);
+        openModal(`
+            <div class="modal-header">
+                <div class="modal-title">Регистрация</div>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" id="regEmail" placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Полное имя</label>
+                    <input type="text" class="form-input" id="regFullName" placeholder="Иван Иванов">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Пароль</label>
+                    <input type="password" class="form-input" id="regPassword" placeholder="Минимум 6 символов">
+                </div>
+                <button class="btn btn-primary btn-block btn-lg" onclick="doRegister()">Создать аккаунт</button>
+                <p class="text-secondary" style="text-align: center; margin-top: 16px; font-size: 14px;">
+                    Уже есть аккаунт? <a href="#" onclick="closeModal(); openLoginModal(); return false;" style="color: var(--accent); font-weight: 600;">Войти</a>
+                </p>
+            </div>
+        `);
+        setTimeout(() => document.getElementById('regEmail')?.focus(), 100);
     }
 
     async function doLogin() {
-      const email = document.getElementById('loginEmail').value.trim();
-      const password = document.getElementById('loginPassword').value;
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
 
-      if (!email || !password) {
-        showToast('Заполните все поля', 'warning');
-        return;
-      }
+        if (!email || !password) {
+            showToast('Заполните все поля', 'warning');
+            return;
+        }
 
-      try {
-        const token = await apiCall('/login', {
-          method: 'POST',
-          body: JSON.stringify({ email, password }),
-          noAuth: true,
-        });
+        try {
+            const token = await apiCall('/login', {
+                method: 'POST',
+                body: JSON.stringify({ email, password }),
+                noAuth: true,
+            });
 
-        state.token = token.trim();
-        state.email = email;
-        localStorage.setItem('token', state.token);
-        localStorage.setItem('email', state.email);
+            state.token = token.trim();
+            state.email = email;
+            localStorage.setItem('token', state.token);
+            localStorage.setItem('email', state.email);
 
-        closeModal();
-        renderHeader();
-        showToast('Добро пожаловать!', 'success');
-        showCatalog();
-      } catch (e) {
-        showToast(e.message || 'Неверный email или пароль', 'error');
-      }
+            closeModal();
+            renderHeader();
+            showToast('Добро пожаловать!', 'success');
+            showCatalog();
+        } catch (e) {
+            showToast(e.message || 'Неверный email или пароль', 'error');
+        }
     }
 
     async function doRegister() {
-      const email = document.getElementById('regEmail').value.trim();
-      const fullName = document.getElementById('regFullName').value.trim();
-      const password = document.getElementById('regPassword').value;
+        const email = document.getElementById('regEmail').value.trim();
+        const fullName = document.getElementById('regFullName').value.trim();
+        const password = document.getElementById('regPassword').value;
 
-      if (!email || !fullName || !password) {
-        showToast('Заполните все поля', 'warning');
-        return;
-      }
+        if (!email || !fullName || !password) {
+            showToast('Заполните все поля', 'warning');
+            return;
+        }
 
-      if (password.length < 6) {
-        showToast('Пароль должен быть минимум 6 символов', 'warning');
-        return;
-      }
+        if (password.length < 6) {
+            showToast('Пароль должен быть минимум 6 символов', 'warning');
+            return;
+        }
 
-      try {
-        await apiCall('/register', {
-          method: 'POST',
-          body: JSON.stringify({ email, password, fullName }),
-          noAuth: true,
-        });
+        try {
+            await apiCall('/register', {
+                method: 'POST',
+                body: JSON.stringify({ email, password, fullName }),
+                noAuth: true,
+            });
 
-        showToast('Аккаунт создан! Теперь войдите.', 'success');
-        closeModal();
-        setTimeout(() => openLoginModal(), 300);
-        setTimeout(() => {
-          const loginEmail = document.getElementById('loginEmail');
-          if (loginEmail) loginEmail.value = email;
-        }, 400);
-      } catch (e) {
-        showToast(e.message || 'Ошибка регистрации', 'error');
-      }
+            showToast('Аккаунт создан! Теперь войдите.', 'success');
+            closeModal();
+            setTimeout(() => openLoginModal(), 300);
+            setTimeout(() => {
+                const loginEmail = document.getElementById('loginEmail');
+                if (loginEmail) loginEmail.value = email;
+            }, 400);
+        } catch (e) {
+            showToast(e.message || 'Ошибка регистрации', 'error');
+        }
     }
 
     // ============================================================
-    // КАТАЛОГ СОБЫТИЙ
+    // КАТАЛОГ
     // ============================================================
     function showCatalog() {
-      document.getElementById('pageContent').innerHTML = `
-        <h1 class="page-title">Все события</h1>
-        <p class="page-subtitle">Найди своё следующее приключение</p>
+        document.getElementById('pageContent').innerHTML = `
+            <h1 class="page-title">Все события</h1>
+            <p class="page-subtitle">Найди своё следующее приключение</p>
 
-        <div class="filters-row">
-          <div class="chips" id="typeChips"></div>
-          <button class="filter-btn" id="moreFiltersBtn" onclick="toggleFiltersPanel()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-              <line x1="4" y1="6" x2="20" y2="6"></line>
-              <line x1="4" y1="12" x2="14" y2="12"></line>
-              <line x1="4" y1="18" x2="10" y2="18"></line>
-            </svg>
-            Фильтры
-          </button>
-        </div>
+            <div class="filters-row">
+                <div class="chips" id="typeChips"></div>
+                <button class="filter-btn" id="moreFiltersBtn" onclick="toggleFiltersPanel()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                        <line x1="4" y1="6" x2="20" y2="6"></line>
+                        <line x1="4" y1="12" x2="14" y2="12"></line>
+                        <line x1="4" y1="18" x2="10" y2="18"></line>
+                    </svg>
+                    Фильтры
+                </button>
+            </div>
 
-        <div class="filters-panel" id="filtersPanel">
-          <div class="filter-group">
-            <label>Мин. цена</label>
-            <input type="number" class="form-input" id="filterMinPrice" placeholder="0" onchange="applyFilters()">
-          </div>
-          <div class="filter-group">
-            <label>Макс. цена</label>
-            <input type="number" class="form-input" id="filterMaxPrice" placeholder="10000" onchange="applyFilters()">
-          </div>
-          <div class="filter-group">
-  <label>С даты и времени</label>
-  <input type="datetime-local" class="form-input" id="filterDateFrom" onchange="applyFilters()">
-</div>
-<div class="filter-group">
-  <label>По дату и время</label>
-  <input type="datetime-local" class="form-input" id="filterDateTo" onchange="applyFilters()">
-</div>
-          <div class="filter-group" style="display: flex; align-items: flex-end;">
-            <button class="btn btn-secondary btn-block" onclick="resetFilters()">Сбросить</button>
-          </div>
-        </div>
+            <div class="filters-panel" id="filtersPanel">
+                <div class="filter-group">
+                    <label>Мин. цена</label>
+                    <input type="number" class="form-input" id="filterMinPrice" placeholder="0" onchange="applyFilters()">
+                </div>
+                <div class="filter-group">
+                    <label>Макс. цена</label>
+                    <input type="number" class="form-input" id="filterMaxPrice" placeholder="10000" onchange="applyFilters()">
+                </div>
+                <div class="filter-group">
+                    <label>С даты и времени</label>
+                    <input type="datetime-local" class="form-input" id="filterDateFrom" onchange="applyFilters()">
+                </div>
+                <div class="filter-group">
+                    <label>По дату и время</label>
+                    <input type="datetime-local" class="form-input" id="filterDateTo" onchange="applyFilters()">
+                </div>
+                <div class="filter-group" style="display: flex; align-items: flex-end;">
+                    <button class="btn btn-secondary btn-block" onclick="resetFilters()">Сбросить</button>
+                </div>
+            </div>
 
-        <div id="eventsContainer"></div>
-      `;
+            <div id="eventsContainer"></div>
+        `;
 
-      renderTypeChips();
-      loadEvents();
+        renderTypeChips();
+        loadEvents();
     }
 
     function renderTypeChips() {
-      const container = document.getElementById('typeChips');
-      if (!container) return;
+        const container = document.getElementById('typeChips');
+        if (!container) return;
 
-      const types = [
-        { value: null, label: 'Все' },
-        { value: 'MUSIC', label: '🎵 Музыка' },
-        { value: 'GAMING', label: '🎮 Игры' },
-        { value: 'FOOD', label: '🍔 Еда' },
-        { value: 'BUSINESS', label: '💼 Бизнес' },
-        { value: 'WALK', label: '🚶 Прогулки' },
-        { value: 'HOBBIES', label: '🎨 Хобби' },
-        { value: 'ANOTHER', label: '✨ Другое' },
-      ];
+        const types = [
+            { value: null, label: 'Все' },
+            { value: 'MUSIC', label: '🎵 Музыка' },
+            { value: 'GAMING', label: '🎮 Игры' },
+            { value: 'FOOD', label: '🍔 Еда' },
+            { value: 'BUSINESS', label: '💼 Бизнес' },
+            { value: 'WALK', label: '🚶 Прогулки' },
+            { value: 'HOBBIES', label: '🎨 Хобби' },
+            { value: 'ANOTHER', label: '✨ Другое' },
+        ];
 
-      container.innerHTML = types.map(t => `
-        <button class="chip ${state.filterType === t.value ? 'active' : ''}"
-                onclick="selectType('${t.value || ''}')">
-          ${t.label}
-        </button>
-      `).join('');
+        container.innerHTML = types.map(t => `
+            <button class="chip ${state.filterType === t.value ? 'active' : ''}"
+                    onclick="selectType('${t.value || ''}')">
+                ${t.label}
+            </button>
+        `).join('');
     }
 
     function selectType(type) {
-      state.filterType = type || null;
-      state.currentPage = 0;
-      renderTypeChips();
-      loadEvents();
+        state.filterType = type || null;
+        state.currentPage = 0;
+        renderTypeChips();
+        loadEvents();
     }
 
     function toggleFiltersPanel() {
-      const panel = document.getElementById('filtersPanel');
-      const btn = document.getElementById('moreFiltersBtn');
-      panel.classList.toggle('active');
-      btn.classList.toggle('active');
+        const panel = document.getElementById('filtersPanel');
+        const btn = document.getElementById('moreFiltersBtn');
+        panel.classList.toggle('active');
+        btn.classList.toggle('active');
     }
 
     function applyFilters() {
-      state.filterMinPrice = document.getElementById('filterMinPrice')?.value || null;
-      state.filterMaxPrice = document.getElementById('filterMaxPrice')?.value || null;
-      const fromVal = document.getElementById('filterDateFrom')?.value;
-const toVal = document.getElementById('filterDateTo')?.value;
+        state.filterMinPrice = document.getElementById('filterMinPrice')?.value || null;
+        state.filterMaxPrice = document.getElementById('filterMaxPrice')?.value || null;
+        const fromVal = document.getElementById('filterDateFrom')?.value;
+        const toVal = document.getElementById('filterDateTo')?.value;
 
-state.filterDateFrom = fromVal ? fromVal + ':00' : null;
-state.filterDateTo = toVal ? toVal + ':00' : null;
-      state.currentPage = 0;
-      loadEvents();
+        state.filterDateFrom = fromVal ? fromVal + ':00' : null;
+        state.filterDateTo = toVal ? toVal + ':00' : null;
+        state.currentPage = 0;
+        loadEvents();
     }
 
     function resetFilters() {
-      state.filterType = null;
-      state.filterMinPrice = null;
-      state.filterMaxPrice = null;
-      state.filterDateFrom = null;
-      state.filterDateTo = null;
-      state.searchQuery = '';
-      state.currentPage = 0;
+        state.filterType = null;
+        state.filterMinPrice = null;
+        state.filterMaxPrice = null;
+        state.filterDateFrom = null;
+        state.filterDateTo = null;
+        state.searchQuery = '';
+        state.currentPage = 0;
 
-      document.getElementById('searchInput').value = '';
-      document.getElementById('filterMinPrice').value = '';
-      document.getElementById('filterMaxPrice').value = '';
-      document.getElementById('filterDateFrom').value = '';
-      document.getElementById('filterDateTo').value = '';
+        document.getElementById('searchInput').value = '';
+        document.getElementById('filterMinPrice').value = '';
+        document.getElementById('filterMaxPrice').value = '';
+        document.getElementById('filterDateFrom').value = '';
+        document.getElementById('filterDateTo').value = '';
 
-      renderTypeChips();
-      loadEvents();
-      showToast('Фильтры сброшены', 'info');
+        renderTypeChips();
+        loadEvents();
+        showToast('Фильтры сброшены', 'info');
     }
 
     function onSearchInput() {
-      clearTimeout(state.searchDebounce);
-      state.searchDebounce = setTimeout(() => {
-        state.searchQuery = document.getElementById('searchInput').value.trim();
-        state.currentPage = 0;
-        loadEvents();
-      }, 500);
+        clearTimeout(state.searchDebounce);
+        state.searchDebounce = setTimeout(() => {
+            state.searchQuery = document.getElementById('searchInput').value.trim();
+            state.currentPage = 0;
+            loadEvents();
+        }, 500);
     }
 
     async function loadEvents() {
-      const container = document.getElementById('eventsContainer');
-      if (!container) return;
+        const container = document.getElementById('eventsContainer');
+        if (!container) return;
 
-      container.innerHTML = `
-        <div class="events-grid">
-          ${Array(6).fill('<div class="skeleton skeleton-card"></div>').join('')}
-        </div>
-      `;
-
-      try {
-        const params = new URLSearchParams();
-        params.append('page', state.currentPage);
-        params.append('size', PAGE_SIZE);
-        params.append('sort', 'eventDate,asc');
-
-        if (state.filterType) params.append('type', state.filterType);
-        if (state.filterMinPrice) params.append('minPrice', state.filterMinPrice);
-        if (state.filterMaxPrice) params.append('maxPrice', state.filterMaxPrice);
-        if (state.filterDateFrom) params.append('dateFrom', state.filterDateFrom);
-        if (state.filterDateTo) params.append('dateTo', state.filterDateTo);
-        if (state.searchQuery) params.append('search', state.searchQuery);
-
-        const response = await apiCall(`/events?${params.toString()}`, { noAuth: true });
-
-        const events = response.content || response || [];
-        state.events = events;
-        state.totalPages = response.totalPages || 1;
-        state.totalElements = response.totalElements || events.length;
-
-        renderEvents();
-      } catch (e) {
         container.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">😕</div>
-            <h3>Не удалось загрузить события</h3>
-            <p>${escapeHtml(e.message)}</p>
-            <button class="btn btn-primary mt-4" onclick="loadEvents()">Попробовать снова</button>
-          </div>
+            <div class="events-grid">
+                ${Array(6).fill('<div class="skeleton skeleton-card"></div>').join('')}
+            </div>
         `;
-      }
+
+        try {
+            const params = new URLSearchParams();
+            params.append('page', state.currentPage);
+            params.append('size', PAGE_SIZE);
+            params.append('sort', 'eventDate,asc');
+
+            if (state.filterType) params.append('type', state.filterType);
+            if (state.filterMinPrice) params.append('minPrice', state.filterMinPrice);
+            if (state.filterMaxPrice) params.append('maxPrice', state.filterMaxPrice);
+            if (state.filterDateFrom) params.append('dateFrom', state.filterDateFrom);
+            if (state.filterDateTo) params.append('dateTo', state.filterDateTo);
+            if (state.searchQuery) params.append('search', state.searchQuery);
+
+            const response = await apiCall(`/events?${params.toString()}`, { noAuth: true });
+
+            const events = response.content || response || [];
+            state.events = events;
+            state.totalPages = response.totalPages || 1;
+            state.totalElements = response.totalElements || events.length;
+
+            renderEvents();
+        } catch (e) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">😕</div>
+                    <h3>Не удалось загрузить события</h3>
+                    <p>${escapeHtml(e.message)}</p>
+                    <button class="btn btn-primary mt-4" onclick="loadEvents()">Попробовать снова</button>
+                </div>
+            `;
+        }
     }
 
     function renderEvents() {
-      const container = document.getElementById('eventsContainer');
+        const container = document.getElementById('eventsContainer');
 
-      if (state.events.length === 0) {
+        if (state.events.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">🔍</div>
+                    <h3>Ничего не найдено</h3>
+                    <p>Попробуйте изменить фильтры или поискать другое</p>
+                    <button class="btn btn-secondary mt-4" onclick="resetFilters()">Сбросить фильтры</button>
+                </div>
+            `;
+            return;
+        }
+
+        const cards = state.events.map(event => renderEventCard(event)).join('');
+        const pagination = renderPagination();
+
         container.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">🔍</div>
-            <h3>Ничего не найдено</h3>
-            <p>Попробуйте изменить фильтры или поискать другое</p>
-            <button class="btn btn-secondary mt-4" onclick="resetFilters()">Сбросить фильтры</button>
-          </div>
+            <div class="events-grid">${cards}</div>
+            ${pagination}
         `;
-        return;
-      }
-
-      const cards = state.events.map(event => renderEventCard(event)).join('');
-      const pagination = renderPagination();
-
-      container.innerHTML = `
-        <div class="events-grid">${cards}</div>
-        ${pagination}
-      `;
     }
 
     function renderEventCard(event) {
-      const cover = event.coverImageUrl
-        ? `background-image: url('${escapeHtml(event.coverImageUrl)}')`
-        : `background: ${getPlaceholderGradient(event.name || '')}`;
+        const cover = event.coverImageUrl
+            ? `background-image: url('${escapeHtml(event.coverImageUrl)}')`
+            : `background: ${getPlaceholderGradient(event.name || '')}`;
 
-      const priceClass = Number(event.price) === 0 ? 'free' : '';
+        const priceClass = Number(event.price) === 0 ? 'free' : '';
 
-      return `
-        <div class="event-card" onclick="openEventDetail(${event.id})">
-          <div class="event-cover" style="${cover}">
-            <div class="event-type">${getTypeLabel(event.type)}</div>
-          </div>
-          <div class="event-body">
-            <div class="event-name">${escapeHtml(event.name)}</div>
-            <div class="event-meta">
-              <div class="event-meta-row">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                  <rect x="3" y="4" width="18" height="18" rx="2"></rect>
-                  <line x1="16" y1="2" x2="16" y2="6"></line>
-                  <line x1="8" y1="2" x2="8" y2="6"></line>
-                  <line x1="3" y1="10" x2="21" y2="10"></line>
-                </svg>
-                ${formatDateShort(event.eventDate)}
-              </div>
-              ${event.location ? `
-                <div class="event-meta-row">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                  </svg>
-                  ${escapeHtml(event.location)}
+        return `
+            <div class="event-card" onclick="openEventDetail(${event.id})">
+                <div class="event-cover" style="${cover}">
+                    <div class="event-type">${getTypeLabel(event.type)}</div>
                 </div>
-              ` : ''}
-            </div>
-            <div class="event-footer">
-              <div class="event-price ${priceClass}">${formatPrice(event.price)}</div>
-              ${event.currentParticipants !== undefined ? `
-                <div class="event-participants">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="9" cy="7" r="4"></circle>
-                  </svg>
-                  ${event.currentParticipants}${event.maxParticipants ? '/' + event.maxParticipants : ''}
+                <div class="event-body">
+                    <div class="event-name">${escapeHtml(event.name)}</div>
+                    <div class="event-meta">
+                        <div class="event-meta-row">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            ${formatDateShort(event.eventDate)}
+                        </div>
+                        ${event.location ? `
+                            <div class="event-meta-row">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                                ${escapeHtml(event.location)}
+                            </div>
+                        ` : ''}
+                    </div>
+                    <div class="event-footer">
+                        <div class="event-price ${priceClass}">${formatPrice(event.price)}</div>
+                        ${event.currentParticipants !== undefined ? `
+                            <div class="event-participants">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                </svg>
+                                ${event.currentParticipants}${event.maxParticipants ? '/' + event.maxParticipants : ''}
+                            </div>
+                        ` : ''}
+                    </div>
                 </div>
-              ` : ''}
             </div>
-          </div>
-        </div>
-      `;
+        `;
     }
 
     function renderPagination() {
-      if (state.totalPages <= 1) return '';
+        if (state.totalPages <= 1) return '';
 
-      const current = state.currentPage;
-      const total = state.totalPages;
-      const pages = [];
+        const current = state.currentPage;
+        const total = state.totalPages;
+        const pages = [];
 
-      pages.push(`<button class="page-btn" ${current === 0 ? 'disabled' : ''} onclick="goToPage(${current - 1})">←</button>`);
+        pages.push(`<button class="page-btn" ${current === 0 ? 'disabled' : ''} onclick="goToPage(${current - 1})">←</button>`);
 
-      const range = [];
-      for (let i = 0; i < total; i++) {
-        if (i === 0 || i === total - 1 || Math.abs(i - current) <= 1) {
-          range.push(i);
+        const range = [];
+        for (let i = 0; i < total; i++) {
+            if (i === 0 || i === total - 1 || Math.abs(i - current) <= 1) {
+                range.push(i);
+            }
         }
-      }
 
-      let lastPage = -1;
-      range.forEach(p => {
-        if (lastPage !== -1 && p - lastPage > 1) {
-          pages.push(`<span class="page-btn" style="border: none; background: transparent; cursor: default;">...</span>`);
-        }
-        pages.push(`<button class="page-btn ${p === current ? 'active' : ''}" onclick="goToPage(${p})">${p + 1}</button>`);
-        lastPage = p;
-      });
+        let lastPage = -1;
+        range.forEach(p => {
+            if (lastPage !== -1 && p - lastPage > 1) {
+                pages.push(`<span class="page-btn" style="border: none; background: transparent; cursor: default;">...</span>`);
+            }
+            pages.push(`<button class="page-btn ${p === current ? 'active' : ''}" onclick="goToPage(${p})">${p + 1}</button>`);
+            lastPage = p;
+        });
 
-      pages.push(`<button class="page-btn" ${current >= total - 1 ? 'disabled' : ''} onclick="goToPage(${current + 1})">→</button>`);
+        pages.push(`<button class="page-btn" ${current >= total - 1 ? 'disabled' : ''} onclick="goToPage(${current + 1})">→</button>`);
 
-      return `<div class="pagination">${pages.join('')}</div>`;
+        return `<div class="pagination">${pages.join('')}</div>`;
     }
 
     function goToPage(page) {
-      state.currentPage = page;
-      loadEvents();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+        state.currentPage = page;
+        loadEvents();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // ============================================================
     // ДЕТАЛИ СОБЫТИЯ
     // ============================================================
     async function openEventDetail(id) {
-      openModal('<div class="loader"></div>', 'modal-lg');
+        openModal('<div class="loader"></div>', 'modal-lg');
 
-      try {
-        const event = await apiCall(`/eventById/${id}`, { noAuth: true });
-        state.currentEvent = event;
-        renderEventDetail(event);
-      } catch (e) {
-        openModal(`
-          <div class="modal-header">
-            <div class="modal-title">Ошибка</div>
-            <button class="modal-close" onclick="closeModal()">✕</button>
-          </div>
-          <div class="modal-body">
-            <p class="text-secondary">${escapeHtml(e.message)}</p>
-          </div>
-        `);
-      }
+        try {
+            const event = await apiCall(`/eventById/${id}`, { noAuth: true });
+            state.currentEvent = event;
+
+            // Проверяем, записан ли текущий пользователь
+            let myRegistration = null;
+            if (state.token && event.organizerEmail !== state.email) {
+                try {
+                    myRegistration = await apiCall(`/users/me/tickets/${id}`);
+                } catch {
+                    myRegistration = null;
+                }
+            }
+
+            // Если пользователь — организатор, грузим участников
+            let participants = null;
+            if (state.token && event.organizerEmail === state.email) {
+                try {
+                    participants = await apiCall(`/events/${id}/participants`);
+                } catch {
+                    participants = null;
+                }
+            }
+
+            renderEventDetail(event, myRegistration, participants);
+        } catch (e) {
+            openModal(`
+                <div class="modal-header">
+                    <div class="modal-title">Ошибка</div>
+                    <button class="modal-close" onclick="closeModal()">✕</button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-secondary">${escapeHtml(e.message)}</p>
+                </div>
+            `);
+        }
     }
 
-    function renderEventDetail(event) {
-      const cover = event.imageUrls && event.imageUrls.length > 0
-        ? `background-image: url('${escapeHtml(event.imageUrls[0])}')`
-        : `background: ${getPlaceholderGradient(event.name || '')}`;
+    function renderEventDetail(event, myRegistration, participants) {
+        const cover = event.imageUrls && event.imageUrls.length > 0
+            ? `background-image: url('${escapeHtml(event.imageUrls[0])}')`
+            : `background: ${getPlaceholderGradient(event.name || '')}`;
 
-      const isOwner = state.email && event.organizerEmail === state.email;
-      const priceClass = Number(event.price) === 0 ? 'success' : 'accent';
+        const isOwner = state.email && event.organizerEmail === state.email;
+        const priceClass = Number(event.price) === 0 ? 'success' : 'accent';
+        const isPast = new Date(event.eventDate) < new Date();
 
-      const imagesHtml = event.imageUrls && event.imageUrls.length > 1
-        ? `
-          <div class="mt-4">
-            <div class="sidebar-label mb-2">Галерея</div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px;">
-              ${event.imageUrls.map(url => `
-                <div style="aspect-ratio: 1; border-radius: 8px; background-image: url('${escapeHtml(url)}'); background-size: cover; background-position: center; cursor: pointer;"
-                     onclick="window.open('${escapeHtml(url)}', '_blank')"></div>
-              `).join('')}
-            </div>
-          </div>
-        `
-        : '';
+        const imagesHtml = event.imageUrls && event.imageUrls.length > 1
+            ? `
+                <div class="mt-4">
+                    <div class="sidebar-label mb-2">Галерея</div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px;">
+                        ${event.imageUrls.map(url => `
+                            <div style="aspect-ratio: 1; border-radius: 8px; background-image: url('${escapeHtml(url)}'); background-size: cover; background-position: center; cursor: pointer;"
+                                 onclick="window.open('${escapeHtml(url)}', '_blank')"></div>
+                        `).join('')}
+                    </div>
+                </div>
+            `
+            : '';
 
-      openModal(`
-        <div class="event-detail-cover" style="${cover}">
-          <button class="modal-close" style="position: absolute; top: 16px; right: 16px; z-index: 3;" onclick="closeModal()">✕</button>
+        // Блок действий — что показать в сайдбаре
+        let actionBlock = '';
+
+        if (isOwner) {
+            // Организатор
+            actionBlock = `
+                <button class="btn btn-primary btn-block" onclick="closeModal(); openEditEventModal(${event.id})">
+                    ✏️ Редактировать
+                </button>
+                <button class="btn btn-danger btn-block" onclick="deleteEvent(${event.id})">
+                    🗑 Удалить
+                </button>
+            `;
+
+            // Участники для организатора
+            if (participants && participants.length > 0) {
+                actionBlock += `
+                    <div class="sidebar-card mt-2">
+                        <div class="sidebar-label mb-2">Участники (${participants.length})</div>
+                        <div class="participants-list">
+                           ${participants.map(p => `
+    <div class="participant-item" style="cursor: pointer;"
+         onclick="closeModal(); openPublicProfile(${p.userId})">
+        <div class="participant-avatar">${getInitials(p.fullName || p.email)}</div>
+        <div class="participant-info">
+            <div class="participant-name">${escapeHtml(p.fullName || 'Без имени')}</div>
+            <div class="participant-email">${escapeHtml(p.email || '')}</div>
         </div>
-
-        <div class="event-detail-header">
-          <div class="event-detail-type">${getTypeLabel(event.type)}</div>
-          <h1 class="event-detail-title">${escapeHtml(event.name)}</h1>
-          <div class="event-detail-meta">
-            <div class="event-detail-meta-item">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                <rect x="3" y="4" width="18" height="18" rx="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
-              ${formatDate(event.eventDate)}
-            </div>
-            ${event.location ? `
-              <div class="event-detail-meta-item">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-                ${escapeHtml(event.location)}
-              </div>
-            ` : ''}
-          </div>
-        </div>
-
-        <div class="event-detail-body">
-          <div>
-            <div class="sidebar-label mb-2">Описание</div>
-            <div class="event-detail-description">${escapeHtml(event.description || 'Описание не указано')}</div>
-            ${imagesHtml}
-          </div>
-
-          <div class="event-detail-sidebar">
-            <div class="sidebar-card">
-              <div class="sidebar-label">Цена</div>
-              <div class="sidebar-value ${priceClass}">${formatPrice(event.price)}</div>
-            </div>
-
-            <div class="sidebar-card">
-              <div class="sidebar-label">Участники</div>
-              <div class="sidebar-value">${event.currentParticipants || 0}${event.maxParticipants ? ' / ' + event.maxParticipants : ''}</div>
-            </div>
-
-<div class="sidebar-card">
-  <div class="sidebar-label mb-2">Организатор</div>
-  <div class="organizer-card" style="background: transparent; border: none; padding: 0; cursor: pointer;"
-       onclick="closeModal(); openPublicProfile(${event.organizerId})">
-    <div class="organizer-avatar">${getInitials(event.organizerEmail)}</div>
-    <div class="organizer-info">
-      <div class="organizer-email">${escapeHtml(event.organizerEmail || 'Не указан')}</div>
-      <div style="font-size: 11px; color: var(--accent); margin-top: 2px;">Открыть профиль →</div>
+        <div class="participant-ticket" title="Номер билета">#${escapeHtml((p.ticketNumber || '').substring(0, 8).toUpperCase())}</div>
     </div>
-  </div>
-</div>
-
-            ${isOwner ? `
-              <button class="btn btn-primary btn-block" onclick="closeModal(); openEditEventModal(${event.id})">
-                ✏️ Редактировать
-              </button>
-              <button class="btn btn-danger btn-block" onclick="deleteEvent(${event.id})">
-                🗑 Удалить
-              </button>
-            ` : `
-              <button class="btn btn-primary btn-block btn-lg" onclick="registerToEvent(${event.id})" disabled title="Функция в разработке">
-                🎟 Записаться
-              </button>
-            `}
-          </div>
-        </div>
-      `, 'modal-lg');
-    }
-
-    function registerToEvent(id) {
-      showToast('Запись на события скоро появится', 'info');
-    }
-
-    async function deleteEvent(id) {
-      if (!confirm('Вы уверены, что хотите удалить это событие?')) return;
-
-      try {
-        await apiCall(`/deleteEvent/${id}`, { method: 'DELETE' });
-        closeModal();
-        showToast('Событие удалено', 'success');
-        loadEvents();
-        if (document.getElementById('pageContent').innerHTML.includes('Мои события')) {
-          showMyEvents();
-        }
-      } catch (e) {
-        showToast(e.message || 'Ошибка удаления', 'error');
-      }
-    }
-
-    // ============================================================
-    // СОЗДАНИЕ / РЕДАКТИРОВАНИЕ СОБЫТИЯ
-    // ============================================================
-    function openCreateEventModal() {
-      if (!state.token) {
-        showToast('Сначала войдите', 'warning');
-        openLoginModal();
-        return;
-      }
-      state.editingEvent = null;
-      renderEventForm();
-    }
-
-    async function openEditEventModal(id) {
-      if (!state.token) {
-        showToast('Сначала войдите', 'warning');
-        return;
-      }
-
-      openModal('<div class="loader"></div>');
-
-      try {
-        const event = await apiCall(`/eventById/${id}`);
-        state.editingEvent = event;
-        renderEventForm(event);
-      } catch (e) {
-        showToast(e.message || 'Ошибка загрузки', 'error');
-        closeModal();
-      }
-    }
-
-    function renderEventForm(event = null) {
-      const isEdit = !!event;
-      const imageUrls = event?.imageUrls && event.imageUrls.length > 0
-        ? event.imageUrls
-        : [''];
-
-      openModal(`
-        <div class="modal-header">
-          <div class="modal-title">${isEdit ? 'Редактировать событие' : 'Создать событие'}</div>
-          <button class="modal-close" onclick="closeModal()">✕</button>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <label class="form-label">Название *</label>
-            <input type="text" class="form-input" id="eventName" placeholder="Например: Рейв бабушек" maxlength="100" value="${escapeHtml(event?.name || '')}">
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Тип *</label>
-              <select class="form-select" id="eventType">
-                <option value="MUSIC">🎵 Музыка</option>
-                <option value="GAMING">🎮 Игры</option>
-                <option value="FOOD">🍔 Еда</option>
-                <option value="BUSINESS">💼 Бизнес</option>
-                <option value="WALK">🚶 Прогулки</option>
-                <option value="HOBBIES">🎨 Хобби</option>
-                <option value="ANOTHER">✨ Другое</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Дата и время *</label>
-              <input type="datetime-local" class="form-input" id="eventDate">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Место проведения *</label>
-            <input type="text" class="form-input" id="eventLocation" placeholder="Адрес или онлайн-ссылка" maxlength="200" value="${escapeHtml(event?.location || '')}">
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label">Цена (₽) *</label>
-              <input type="number" class="form-input" id="eventPrice" placeholder="0" min="0" step="50" value="${event?.price || 0}">
-              <div class="form-hint">0 — бесплатное событие</div>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Макс. участников *</label>
-              <input type="number" class="form-input" id="eventMaxParticipants" placeholder="50" min="1" value="${event?.maxParticipants || 50}">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Описание *</label>
-            <textarea class="form-textarea" id="eventDescription" placeholder="Расскажите о событии..." maxlength="2000">${escapeHtml(event?.description || '')}</textarea>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Изображения</label>
-            <div class="image-inputs" id="imageInputs">
-              ${imageUrls.map((url, i) => renderImageInput(url, i)).join('')}
-            </div>
-            <button class="add-image-btn mt-2" onclick="addImageInput()">+ Добавить изображение</button>
-            <div class="form-hint">Вставьте прямые ссылки на изображения (https://...)</div>
-          </div>
-
-          <button class="btn btn-primary btn-block btn-lg" onclick="submitEventForm(${isEdit ? event.id : 'null'})">
-            ${isEdit ? 'Сохранить изменения' : 'Создать событие'}
-          </button>
-        </div>
-      `);
-
-      setTimeout(() => {
-        document.getElementById('eventName')?.focus();
-
-        if (event?.type) {
-          document.getElementById('eventType').value = event.type;
-        }
-
-        if (event?.eventDate) {
-          const dt = new Date(event.eventDate);
-          const local = new Date(dt.getTime() - dt.getTimezoneOffset() * 60000);
-          document.getElementById('eventDate').value = local.toISOString().slice(0, 16);
-        }
-      }, 100);
-    }
-
-    function renderImageInput(url, index) {
-      return `
-        <div class="image-input-row" data-index="${index}">
-          <input type="url" class="form-input image-url-input" placeholder="https://example.com/image.jpg" value="${escapeHtml(url || '')}">
-          <button class="remove-image-btn" onclick="removeImageInput(${index})" type="button">✕</button>
-        </div>
-      `;
-    }
-
-    function addImageInput() {
-      const container = document.getElementById('imageInputs');
-      const index = container.children.length;
-      const div = document.createElement('div');
-      div.innerHTML = renderImageInput('', index);
-      container.appendChild(div.firstElementChild);
-    }
-
-    function removeImageInput(index) {
-      const container = document.getElementById('imageInputs');
-      const rows = container.querySelectorAll('.image-input-row');
-      if (rows.length <= 1) {
-        rows[0].querySelector('input').value = '';
-        return;
-      }
-      rows[index]?.remove();
-    }
-
-    async function submitEventForm(eventId) {
-      if (!state.token) {
-        showToast('Сначала войдите', 'warning');
-        return;
-      }
-
-      const name = document.getElementById('eventName').value.trim();
-      const type = document.getElementById('eventType').value;
-      const eventDate = document.getElementById('eventDate').value;
-      const location = document.getElementById('eventLocation').value.trim();
-      const price = parseFloat(document.getElementById('eventPrice').value) || 0;
-      const maxParticipants = parseInt(document.getElementById('eventMaxParticipants').value) || 0;
-      const description = document.getElementById('eventDescription').value.trim();
-
-      const imageUrls = Array.from(document.querySelectorAll('.image-url-input'))
-        .map(input => input.value.trim())
-        .filter(url => url.length > 0);
-
-      if (!name || !eventDate || !location || !description) {
-        showToast('Заполните все обязательные поля', 'warning');
-        return;
-      }
-
-      if (maxParticipants < 1) {
-        showToast('Максимум участников должен быть минимум 1', 'warning');
-        return;
-      }
-
-      const payload = {
-        name,
-        type,
-        eventDate: new Date(eventDate).toISOString(),
-        location,
-        price,
-        maxParticipants,
-        description,
-        imageUrls,
-      };
-
-      try {
-        if (eventId) {
-          await apiCall(`/updateEvent/${eventId}`, {
-            method: 'PUT',
-            body: JSON.stringify(payload),
-          });
-          showToast('Событие обновлено!', 'success');
+`).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (participants !== null) {
+                actionBlock += `
+                    <div class="sidebar-card mt-2" style="text-align: center; color: var(--text-muted); font-size: 13px;">
+                        Пока никто не записался
+                    </div>
+                `;
+            }
+        } else if (!state.token) {
+            // Не залогинен
+            actionBlock = `
+                <button class="btn btn-primary btn-block btn-lg" onclick="closeModal(); openLoginModal();">
+                    🎟 Войдите, чтобы записаться
+                </button>
+            `;
+        } else if (myRegistration && myRegistration.registrationStatus === 'CONFIRMED') {
+            // Уже записан
+            actionBlock = `
+                <div class="ticket-badge">
+                    ✓ Вы записаны
+                </div>
+                <div style="font-size: 12px; color: var(--text-muted); text-align: center; margin-bottom: 12px; font-family: monospace;">
+                    Билет: ${escapeHtml(myRegistration.ticketNumber || '')}
+                </div>
+                <button class="btn btn-danger btn-block" onclick="cancelRegistration(${event.id})">
+                    Отменить запись
+                </button>
+            `;
+        } else if (isPast) {
+            // Событие прошло
+            actionBlock = `
+                <button class="btn btn-secondary btn-block btn-lg" disabled>
+                    Событие завершено
+                </button>
+            `;
         } else {
-          await apiCall('/createEvent', {
-            method: 'POST',
-            body: JSON.stringify(payload),
-          });
-          showToast('Событие создано!', 'success');
+            // Может записаться
+            actionBlock = `
+                <button class="btn btn-primary btn-block btn-lg" onclick="registerToEvent(${event.id})">
+                    🎟 Записаться
+                </button>
+            `;
         }
 
-        closeModal();
-        loadEvents();
-      } catch (e) {
-        showToast(e.message || 'Ошибка сохранения', 'error');
-      }
+        openModal(`
+            <div class="event-detail-cover" style="${cover}">
+                <button class="modal-close" style="position: absolute; top: 16px; right: 16px; z-index: 3;" onclick="closeModal()">✕</button>
+            </div>
+
+            <div class="event-detail-header">
+                <div class="event-detail-type">${getTypeLabel(event.type)}</div>
+                <h1 class="event-detail-title">${escapeHtml(event.name)}</h1>
+                <div class="event-detail-meta">
+                    <div class="event-detail-meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        ${formatDate(event.eventDate)}
+                    </div>
+                    ${event.location ? `
+                        <div class="event-detail-meta-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            ${escapeHtml(event.location)}
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+
+            <div class="event-detail-body">
+                <div>
+                    <div class="sidebar-label mb-2">Описание</div>
+                    <div class="event-detail-description">${escapeHtml(event.description || 'Описание не указано')}</div>
+                    ${imagesHtml}
+                </div>
+
+                <div class="event-detail-sidebar">
+                    <div class="sidebar-card">
+                        <div class="sidebar-label">Цена</div>
+                        <div class="sidebar-value ${priceClass}">${formatPrice(event.price)}</div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <div class="sidebar-label">Участники</div>
+                        <div class="sidebar-value">${event.currentParticipants || 0}${event.maxParticipants ? ' / ' + event.maxParticipants : ''}</div>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <div class="sidebar-label mb-2">Организатор</div>
+                        <div class="organizer-card" style="background: transparent; border: none; padding: 0; cursor: pointer;"
+                             onclick="closeModal(); openPublicProfile(${event.organizerId})">
+                            <div class="organizer-avatar">${getInitials(event.organizerEmail)}</div>
+                            <div class="organizer-info">
+                                <div class="organizer-email">${escapeHtml(event.organizerEmail || 'Не указан')}</div>
+                                <div style="font-size: 11px; color: var(--accent); margin-top: 2px;">Открыть профиль →</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    ${actionBlock}
+                </div>
+            </div>
+        `, 'modal-lg');
+    }
+
+    // ============================================================
+    // ЗАПИСЬ НА СОБЫТИЕ / ОТМЕНА
+    // ============================================================
+    async function registerToEvent(eventId) {
+        if (!state.token) {
+            showToast('Сначала войдите', 'warning');
+            closeModal();
+            openLoginModal();
+            return;
+        }
+
+        try {
+            await apiCall(`/events/${eventId}/register`, { method: 'POST' });
+            showToast('Вы успешно записались на событие!', 'success');
+            closeModal();
+            loadEvents();
+            setTimeout(() => openEventDetail(eventId), 300);
+        } catch (e) {
+            // Обработка конкретных ошибок
+            if (e.status === 409) {
+                showToast(e.message || 'Не удалось записаться', 'warning');
+            } else if (e.status === 400) {
+                showToast(e.message || 'Запись недоступна', 'warning');
+            } else {
+                showToast(e.message || 'Ошибка записи', 'error');
+            }
+        }
+    }
+
+    async function cancelRegistration(eventId) {
+        if (!confirm('Отменить запись на это событие?')) return;
+
+        try {
+            await apiCall(`/events/${eventId}/register`, { method: 'DELETE' });
+            showToast('Запись отменена', 'success');
+            closeModal();
+            loadEvents();
+            setTimeout(() => openEventDetail(eventId), 300);
+        } catch (e) {
+            showToast(e.message || 'Ошибка отмены', 'error');
+        }
+    }
+
+    // ============================================================
+    // МОИ БИЛЕТЫ
+    // ============================================================
+    async function showMyTickets() {
+        if (!state.token) {
+            showToast('Сначала войдите', 'warning');
+            openLoginModal();
+            return;
+        }
+
+        document.getElementById('pageContent').innerHTML = `
+            <h1 class="page-title">Мои билеты</h1>
+            <p class="page-subtitle">События, на которые вы записаны</p>
+            <div id="ticketsContainer"><div class="loader"></div></div>
+        `;
+
+        try {
+            const tickets = await apiCall('/users/me/tickets');
+            state.myTickets = tickets || [];
+
+            const container = document.getElementById('ticketsContainer');
+
+            if (state.myTickets.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🎟</div>
+                        <h3>У вас пока нет билетов</h3>
+                        <p>Запишитесь на событие в каталоге и билет появится здесь</p>
+                        <button class="btn btn-primary mt-4" onclick="showCatalog()">Перейти в каталог</button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="events-grid">
+                    ${state.myTickets.map(ticket => renderTicketCard(ticket)).join('')}
+                </div>
+            `;
+        } catch (e) {
+            document.getElementById('ticketsContainer').innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">😕</div>
+                    <h3>Не удалось загрузить билеты</h3>
+                    <p>${escapeHtml(e.message)}</p>
+                </div>
+            `;
+        }
+    }
+
+    function renderTicketCard(ticket) {
+        return `
+            <div class="ticket-card">
+                <div class="ticket-header">
+                    <div>
+                        <div class="ticket-title">${escapeHtml(ticket.eventName || 'Событие')}</div>
+                        <div class="ticket-number">🎟 Билет №${escapeHtml((ticket.ticketNumber || '').substring(0, 8).toUpperCase())}</div>
+                    </div>
+                </div>
+                <div class="ticket-info">
+                    <div class="ticket-info-item">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        ${formatDate(ticket.eventDate)}
+                    </div>
+                    ${ticket.location ? `
+                        <div class="ticket-info-item">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            ${escapeHtml(ticket.location)}
+                        </div>
+                    ` : ''}
+                </div>
+                <div class="ticket-actions">
+                    <button class="btn btn-secondary btn-sm" onclick="openEventDetail(${ticket.eventId})">
+                        Открыть событие
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="cancelRegistration(${ticket.eventId})">
+                        Отменить
+                    </button>
+                </div>
+            </div>
+        `;
     }
 
     // ============================================================
     // МОИ СОБЫТИЯ
     // ============================================================
     async function showMyEvents() {
-      if (!state.token) {
-        showToast('Сначала войдите', 'warning');
-        openLoginModal();
-        return;
-      }
-
-      document.getElementById('pageContent').innerHTML = `
-        <h1 class="page-title">Мои события</h1>
-        <p class="page-subtitle">События, которые вы создали</p>
-        <div id="myEventsContainer"><div class="loader"></div></div>
-      `;
-
-      try {
-    const params = new URLSearchParams();
-    params.append('page', 0);
-    params.append('size', 100);
-    params.append('sort', 'eventDate,desc');
-    params.append('organizer', state.email);   // ← ДОБАВИЛИ ЭТУ СТРОКУ
-
-    const response = await apiCall(`/events?${params.toString()}`);
-    const myEvents = response.content || response || [];
-
-    const container = document.getElementById('myEventsContainer');
-
-        if (myEvents.length === 0) {
-          container.innerHTML = `
-            <div class="empty-state">
-              <div class="empty-state-icon">📭</div>
-              <h3>У вас пока нет событий</h3>
-              <p>Создайте своё первое событие и оно появится здесь</p>
-              <button class="btn btn-primary mt-4" onclick="openCreateEventModal()">+ Создать событие</button>
-            </div>
-          `;
-          return;
+        if (!state.token) {
+            showToast('Сначала войдите', 'warning');
+            openLoginModal();
+            return;
         }
 
-        container.innerHTML = `
-          <div class="events-grid">
-            ${myEvents.map(event => renderEventCard(event)).join('')}
-          </div>
+        document.getElementById('pageContent').innerHTML = `
+            <h1 class="page-title">Мои события</h1>
+            <p class="page-subtitle">События, которые вы создали</p>
+            <div id="myEventsContainer"><div class="loader"></div></div>
         `;
-      } catch (e) {
-        document.getElementById('myEventsContainer').innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">😕</div>
-            <h3>Не удалось загрузить</h3>
-            <p>${escapeHtml(e.message)}</p>
-          </div>
+
+        try {
+            const params = new URLSearchParams();
+            params.append('page', 0);
+            params.append('size', 100);
+            params.append('sort', 'eventDate,desc');
+            params.append('organizer', state.email);
+
+            const response = await apiCall(`/events?${params.toString()}`);
+            const myEvents = response.content || response || [];
+
+            const container = document.getElementById('myEventsContainer');
+
+            if (myEvents.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <h3>У вас пока нет событий</h3>
+                        <p>Создайте своё первое событие и оно появится здесь</p>
+                        <button class="btn btn-primary mt-4" onclick="openCreateEventModal()">+ Создать событие</button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="events-grid">
+                    ${myEvents.map(event => renderEventCard(event)).join('')}
+                </div>
+            `;
+        } catch (e) {
+            document.getElementById('myEventsContainer').innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">😕</div>
+                    <h3>Не удалось загрузить</h3>
+                    <p>${escapeHtml(e.message)}</p>
+                </div>
+            `;
+        }
+    }
+
+    // ============================================================
+    // СОЗДАНИЕ / РЕДАКТИРОВАНИЕ СОБЫТИЯ
+    // ============================================================
+    function openCreateEventModal() {
+        if (!state.token) {
+            showToast('Сначала войдите', 'warning');
+            openLoginModal();
+            return;
+        }
+        state.editingEvent = null;
+        renderEventForm();
+    }
+
+    async function openEditEventModal(id) {
+        if (!state.token) {
+            showToast('Сначала войдите', 'warning');
+            return;
+        }
+
+        openModal('<div class="loader"></div>');
+
+        try {
+            const event = await apiCall(`/eventById/${id}`);
+            state.editingEvent = event;
+            renderEventForm(event);
+        } catch (e) {
+            showToast(e.message || 'Ошибка загрузки', 'error');
+            closeModal();
+        }
+    }
+
+    function renderEventForm(event = null) {
+        const isEdit = !!event;
+        const imageUrls = event?.imageUrls && event.imageUrls.length > 0 ? event.imageUrls : [''];
+
+        openModal(`
+            <div class="modal-header">
+                <div class="modal-title">${isEdit ? 'Редактировать событие' : 'Создать событие'}</div>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Название *</label>
+                    <input type="text" class="form-input" id="eventName" placeholder="Например: Рейв бабушек" maxlength="100" value="${escapeHtml(event?.name || '')}">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Тип *</label>
+                        <select class="form-select" id="eventType">
+                            <option value="MUSIC">🎵 Музыка</option>
+                            <option value="GAMING">🎮 Игры</option>
+                            <option value="FOOD">🍔 Еда</option>
+                            <option value="BUSINESS">💼 Бизнес</option>
+                            <option value="WALK">🚶 Прогулки</option>
+                            <option value="HOBBIES">🎨 Хобби</option>
+                            <option value="ANOTHER">✨ Другое</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Дата и время *</label>
+                        <input type="datetime-local" class="form-input" id="eventDate">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Место проведения *</label>
+                    <input type="text" class="form-input" id="eventLocation" placeholder="Адрес или онлайн-ссылка" maxlength="200" value="${escapeHtml(event?.location || '')}">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Цена (₽) *</label>
+                        <input type="number" class="form-input" id="eventPrice" placeholder="0" min="0" step="50" value="${event?.price || 0}">
+                        <div class="form-hint">0 — бесплатное событие</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Макс. участников *</label>
+                        <input type="number" class="form-input" id="eventMaxParticipants" placeholder="50" min="1" value="${event?.maxParticipants || 50}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Описание *</label>
+                    <textarea class="form-textarea" id="eventDescription" placeholder="Расскажите о событии..." maxlength="2000">${escapeHtml(event?.description || '')}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Изображения</label>
+                    <div class="image-inputs" id="imageInputs">
+                        ${imageUrls.map((url, i) => renderImageInput(url, i)).join('')}
+                    </div>
+                    <button class="add-image-btn mt-2" onclick="addImageInput()">+ Добавить изображение</button>
+                    <div class="form-hint">Вставьте прямые ссылки на изображения (https://...)</div>
+                </div>
+
+                <button class="btn btn-primary btn-block btn-lg" onclick="submitEventForm(${isEdit ? event.id : 'null'})">
+                    ${isEdit ? 'Сохранить изменения' : 'Создать событие'}
+                </button>
+            </div>
+        `);
+
+        setTimeout(() => {
+            document.getElementById('eventName')?.focus();
+            if (event?.type) {
+                document.getElementById('eventType').value = event.type;
+            }
+            if (event?.eventDate) {
+                const dt = new Date(event.eventDate);
+                const local = new Date(dt.getTime() - dt.getTimezoneOffset() * 60000);
+                document.getElementById('eventDate').value = local.toISOString().slice(0, 16);
+            }
+        }, 100);
+    }
+
+    function renderImageInput(url, index) {
+        return `
+            <div class="image-input-row" data-index="${index}">
+                <input type="url" class="form-input image-url-input" placeholder="https://example.com/image.jpg" value="${escapeHtml(url || '')}">
+                <button class="remove-image-btn" onclick="removeImageInput(${index})" type="button">✕</button>
+            </div>
         `;
-      }
+    }
+
+    function addImageInput() {
+        const container = document.getElementById('imageInputs');
+        const index = container.children.length;
+        const div = document.createElement('div');
+        div.innerHTML = renderImageInput('', index);
+        container.appendChild(div.firstElementChild);
+    }
+
+    function removeImageInput(index) {
+        const container = document.getElementById('imageInputs');
+        const rows = container.querySelectorAll('.image-input-row');
+        if (rows.length <= 1) {
+            rows[0].querySelector('input').value = '';
+            return;
+        }
+        rows[index]?.remove();
+    }
+
+    async function submitEventForm(eventId) {
+        if (!state.token) {
+            showToast('Сначала войдите', 'warning');
+            return;
+        }
+
+        const name = document.getElementById('eventName').value.trim();
+        const type = document.getElementById('eventType').value;
+        const eventDate = document.getElementById('eventDate').value;
+        const location = document.getElementById('eventLocation').value.trim();
+        const price = parseFloat(document.getElementById('eventPrice').value) || 0;
+        const maxParticipants = parseInt(document.getElementById('eventMaxParticipants').value) || 0;
+        const description = document.getElementById('eventDescription').value.trim();
+
+        const imageUrls = Array.from(document.querySelectorAll('.image-url-input'))
+            .map(input => input.value.trim())
+            .filter(url => url.length > 0);
+
+        if (!name || !eventDate || !location || !description) {
+            showToast('Заполните все обязательные поля', 'warning');
+            return;
+        }
+
+        if (maxParticipants < 1) {
+            showToast('Максимум участников должен быть минимум 1', 'warning');
+            return;
+        }
+
+        const payload = {
+            name,
+            type,
+            eventDate: new Date(eventDate).toISOString(),
+            location,
+            price,
+            maxParticipants,
+            description,
+            imageUrls,
+        };
+
+        try {
+            if (eventId) {
+                await apiCall(`/updateEvent/${eventId}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(payload),
+                });
+                showToast('Событие обновлено!', 'success');
+            } else {
+                await apiCall('/createEvent', {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                });
+                showToast('Событие создано!', 'success');
+            }
+
+            closeModal();
+            loadEvents();
+        } catch (e) {
+            showToast(e.message || 'Ошибка сохранения', 'error');
+        }
+    }
+
+    async function deleteEvent(id) {
+        if (!confirm('Вы уверены, что хотите удалить это событие?')) return;
+
+        try {
+            await apiCall(`/deleteEvent/${id}`, { method: 'DELETE' });
+            closeModal();
+            showToast('Событие удалено', 'success');
+            loadEvents();
+            if (document.getElementById('pageContent').innerHTML.includes('Мои события')) {
+                showMyEvents();
+            }
+        } catch (e) {
+            showToast(e.message || 'Ошибка удаления', 'error');
+        }
     }
 
     // ============================================================
     // ИНИЦИАЛИЗАЦИЯ
     // ============================================================
     document.addEventListener('DOMContentLoaded', () => {
-      renderHeader();
-      showCatalog();
+        renderHeader();
+        showCatalog();
     });
 
-    // Закрытие модалки по Ctrl/Cmd + K для отладки
     document.addEventListener('keydown', (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        if (state.token) openCreateEventModal();
-        else openLoginModal();
-      }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            if (state.token) openCreateEventModal();
+            else openLoginModal();
+        }
     });
 </script>
 </body>
