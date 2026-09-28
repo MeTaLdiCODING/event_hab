@@ -53,6 +53,39 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(errorDto);
     }
+    @ExceptionHandler(EventNotAvailableException.class)
+    public ResponseEntity<ErrorResponse> eventNotAvailable(EventNotAvailableException e){
+        log.warn("EventNotAvailable: {}", e.getMessage());
+        var errorDto = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(errorDto);
+    }
+    @ExceptionHandler(AlreadyRegisteredException.class)
+    public ResponseEntity<ErrorResponse> alreadyRegistered(AlreadyRegisteredException e){
+        log.warn("AlreadyRegistered: {}", e.getMessage());
+        var errorDto = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(errorDto);
+    }
+    @ExceptionHandler(EventFullException.class)
+    public ResponseEntity<ErrorResponse> eventFull(EventFullException e){
+        log.warn("EventFull: {}", e.getMessage());
+        var errorDto = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(errorDto);
+    }
+    @ExceptionHandler(RegistrationAlreadyCancelledException.class)
+    public ResponseEntity<ErrorResponse> registrationAlreadyCancelled(RegistrationAlreadyCancelledException e){
+        log.warn("RegistrationAlreadyCancelled: {}", e.getMessage());
+        var errorDto = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(errorDto);
+    }
+
 
 
     @ExceptionHandler(InvalidCredentialsException.class)
