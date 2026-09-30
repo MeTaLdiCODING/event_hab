@@ -1,5 +1,4 @@
 package com.event.hab.profile;
-
 import com.event.hab.profile.DTO.UpdateProfileRequest;
 import com.event.hab.profile.DTO.UserProfileDetailsDTO;
 import com.event.hab.profile.DTO.UserProfileSummaryDTO;
