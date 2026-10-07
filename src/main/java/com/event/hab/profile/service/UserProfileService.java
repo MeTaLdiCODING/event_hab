@@ -1,5 +1,4 @@
 package com.event.hab.profile.service;
-
 import com.event.hab.auth.model.User;
 import com.event.hab.auth.repository.UserRepository;
 import com.event.hab.common.castomException.ProfileNotFoundException;
@@ -10,6 +9,7 @@ import com.event.hab.profile.DTO.UserProfileDetailsDTO;
 import com.event.hab.profile.UserProfileMapper;
 import com.event.hab.profile.model.UserProfile;
 import com.event.hab.profile.repository.UserProfileRepository;
+import com.event.hab.review.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,10 +17,12 @@ public class UserProfileService {
     final UserProfileRepository userProfileRepository;
     final UserProfileMapper userProfileMapper;
     final UserRepository userRepository;
-    public UserProfileService(UserProfileRepository userProfileRepository, UserProfileMapper userProfileMapper, UserRepository userRepository) {
+    final ReviewRepository reviewRepository;
+    public UserProfileService(UserProfileRepository userProfileRepository, UserProfileMapper userProfileMapper, UserRepository userRepository, ReviewRepository reviewRepository) {
         this.userProfileRepository = userProfileRepository;
         this.userProfileMapper = userProfileMapper;
         this.userRepository = userRepository;
+        this.reviewRepository = reviewRepository;
     }
 
     public void createProfileForUser(User user){
@@ -52,5 +54,14 @@ public class UserProfileService {
         userProfileMapper.updateProfileFromDto(request,userProfile);
         userProfileRepository.save(userProfile);
         return userProfileMapper.toDetailsDto(userProfile);
+    }
+
+    public void recalculateRating(Long id) {
+        UserProfile userProfile = userProfileRepository.findByUserId(id).orElseThrow(ProfileNotFoundException::new);
+        Double avg = reviewRepository.getAverageRatingByTargetId(id);
+        long count = reviewRepository.countByTargetId(id);
+        userProfile.setRating(avg != null ? avg : 0.0);
+        userProfile.setReviewsCount((int)count);
+        userProfileRepository.save(userProfile);
     }
 }
