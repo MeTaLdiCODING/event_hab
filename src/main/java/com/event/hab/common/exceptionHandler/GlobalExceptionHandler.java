@@ -1,17 +1,13 @@
 package com.event.hab.common.exceptionHandler;
-
 import com.event.hab.common.DTO.ErrorResponse;
 import com.event.hab.common.castomException.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
 import java.time.LocalDateTime;
-
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -25,7 +21,6 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(errorDto);
     }
-
 
     @ExceptionHandler(ProfileNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleProfileNotFoundException(ProfileNotFoundException e){
@@ -86,8 +81,6 @@ public class GlobalExceptionHandler {
                 .body(errorDto);
     }
 
-
-
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<ErrorResponse> invalidCredentials(InvalidCredentialsException e){
         log.warn("InvalidCredentials: {}", e.getMessage());
@@ -124,9 +117,72 @@ public class GlobalExceptionHandler {
                 .body(errorDto);
     }
 
+    @ExceptionHandler(CannotReviewSelfException.class)
+    public ResponseEntity<ErrorResponse> cannotReviewSelf(CannotReviewSelfException e){
+        log.warn("CannotReviewSelf: {}", e.getMessage());
+        var errorDto = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(errorDto);
+    }
+
+    @ExceptionHandler(EventNotCompletedException.class)
+    public ResponseEntity<ErrorResponse> eventNotCompleted(EventNotCompletedException e){
+        log.warn("EventNotCompleted: {}", e.getMessage());
+        var errorDto = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(errorDto);
+    }
+
+    @ExceptionHandler(InvalidRatingException.class)
+    public ResponseEntity<ErrorResponse> invalidRating(InvalidRatingException e){
+        log.warn("InvalidRating: {}", e.getMessage());
+        var errorDto = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(errorDto);
+    }
+
+    @ExceptionHandler(NotParticipatedException.class)
+    public ResponseEntity<ErrorResponse> notParticipated(NotParticipatedException e){
+        log.warn("NotParticipated: {}", e.getMessage());
+        var errorDto = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(errorDto);
+    }
+
+    @ExceptionHandler(NotReviewAuthorException.class)
+    public ResponseEntity<ErrorResponse> notReviewAuthor(NotReviewAuthorException e){
+        log.warn("NotReviewAuthor: {}", e.getMessage());
+        var errorDto = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(errorDto);
+    }
+
+    @ExceptionHandler(ReviewNotFoundException.class)
+    public ResponseEntity<ErrorResponse> reviewNotFound(ReviewNotFoundException e){
+        log.warn("ReviewNotFound: {}", e.getMessage());
+        var errorDto = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(errorDto);
+    }
+
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> userAlreadyExists(UserAlreadyExistsException e){
         log.warn("UserAlreadyExists: {}", e.getMessage());
+        var errorDto = new ErrorResponse(e.getMessage(), LocalDateTime.now());
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(errorDto);
+    }
+
+    @ExceptionHandler(AlreadyReviewedException.class)
+    public ResponseEntity<ErrorResponse> alreadyReviewed(AlreadyReviewedException e){
+        log.warn("AlreadyReviewed: {}", e.getMessage());
         var errorDto = new ErrorResponse(e.getMessage(), LocalDateTime.now());
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)

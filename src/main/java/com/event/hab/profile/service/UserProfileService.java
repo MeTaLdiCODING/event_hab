@@ -18,7 +18,11 @@ public class UserProfileService {
     final UserProfileMapper userProfileMapper;
     final UserRepository userRepository;
     final ReviewRepository reviewRepository;
-    public UserProfileService(UserProfileRepository userProfileRepository, UserProfileMapper userProfileMapper, UserRepository userRepository, ReviewRepository reviewRepository) {
+    public UserProfileService(
+            UserProfileRepository userProfileRepository,
+            UserProfileMapper userProfileMapper,
+            UserRepository userRepository,
+            ReviewRepository reviewRepository) {
         this.userProfileRepository = userProfileRepository;
         this.userProfileMapper = userProfileMapper;
         this.userRepository = userRepository;
