@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ReviewService {
@@ -79,14 +80,26 @@ final UserProfileService userProfileService;
     }
 
     List<ReviewResponse> getReviewsForOrganizer(Long userId){
-
+        List<Review> reviews = reviewRepository.findByTargetIdOrderByCreatedAtDesc(userId);
+        return reviews.stream().map(reviewMapper::toResponse).toList();
     }
 
     List<ReviewResponse> getReviewsForEvent(Long eventId){
-
+        List<Review> reviews = reviewRepository.findByEventId(eventId);
+        return reviews.stream().map(reviewMapper::toResponse).toList();
     }
 
-    void deleteReview(Long reviewId){
+    @Transactional
+    public void deleteReview(Long reviewId){
+        String email = SecurityUtils.getCurrentUserEmail();
+        User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        Review review = reviewRepository.findById(reviewId).orElseThrow(ReviewNotFoundException::new);
+        Long organizerId = review.getTarget().getId();
+        if(!review.getAuthor().getId().equals(user.getId())){
+            throw new NotReviewAuthorException();
+        }
+        reviewRepository.delete(review);
+        userProfileService.recalculateRating(organizerId);
 
     }
 }
