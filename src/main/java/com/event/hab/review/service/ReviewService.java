@@ -79,12 +79,12 @@ final UserProfileService userProfileService;
         return reviewMapper.toResponse(review);
     }
 
-    List<ReviewResponse> getReviewsForOrganizer(Long userId){
+    public List<ReviewResponse> getReviewsForOrganizer(Long userId){
         List<Review> reviews = reviewRepository.findByTargetIdOrderByCreatedAtDesc(userId);
         return reviews.stream().map(reviewMapper::toResponse).toList();
     }
 
-    List<ReviewResponse> getReviewsForEvent(Long eventId){
+    public List<ReviewResponse> getReviewsForEvent(Long eventId){
         List<Review> reviews = reviewRepository.findByEventId(eventId);
         return reviews.stream().map(reviewMapper::toResponse).toList();
     }

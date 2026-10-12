@@ -25,6 +25,7 @@
           --success: #4CAF50;
           --warning: #FFA726;
           --danger: #EF5350;
+          --star: #FFB400;
           --radius-sm: 8px;
           --radius: 12px;
           --radius-lg: 20px;
@@ -558,6 +559,167 @@
           flex-shrink: 0;
         }
 
+        /* ============ REVIEWS ============ */
+        .reviews-section {
+          margin-top: 32px;
+          padding-top: 24px;
+          border-top: 1px solid var(--border);
+        }
+
+        .reviews-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 16px;
+        }
+
+        .reviews-title {
+          font-size: 18px;
+          font-weight: 700;
+        }
+
+        .reviews-list {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .review-item {
+          background: var(--surface-2);
+          border-radius: var(--radius);
+          padding: 16px;
+          border: 1px solid var(--border);
+        }
+
+        .review-header {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 10px;
+        }
+
+        .review-avatar {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, var(--accent), #C72C41);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+          font-size: 14px;
+          flex-shrink: 0;
+          cursor: pointer;
+        }
+
+        .review-author {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .review-author-name {
+          font-size: 14px;
+          font-weight: 600;
+          cursor: pointer;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .review-date {
+          font-size: 11px;
+          color: var(--text-muted);
+        }
+
+        .review-rating {
+          display: flex;
+          gap: 2px;
+          font-size: 14px;
+          color: var(--star);
+        }
+
+        .review-text {
+          color: var(--text-secondary);
+          font-size: 14px;
+          line-height: 1.6;
+          white-space: pre-wrap;
+          margin-bottom: 8px;
+        }
+
+        .review-event-ref {
+          font-size: 12px;
+          color: var(--text-muted);
+          margin-bottom: 8px;
+        }
+
+        .review-event-ref a {
+          color: var(--accent);
+          text-decoration: none;
+          cursor: pointer;
+        }
+
+        .review-event-ref a:hover { text-decoration: underline; }
+
+        .review-images {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+          gap: 6px;
+          margin-bottom: 8px;
+        }
+
+        .review-image {
+          aspect-ratio: 1;
+          border-radius: 6px;
+          background-size: cover;
+          background-position: center;
+          cursor: pointer;
+        }
+
+        .review-delete-btn {
+          background: transparent;
+          border: none;
+          color: var(--danger);
+          font-size: 12px;
+          cursor: pointer;
+          padding: 4px 0;
+          font-family: inherit;
+          opacity: 0.7;
+          transition: opacity 0.2s;
+        }
+
+        .review-delete-btn:hover { opacity: 1; text-decoration: underline; }
+
+        /* Star Rating Input */
+        .star-input {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+          padding: 8px 0;
+        }
+
+        .star-input button {
+          background: transparent;
+          border: none;
+          font-size: 32px;
+          color: var(--text-muted);
+          cursor: pointer;
+          transition: all 0.2s;
+          padding: 0;
+          line-height: 1;
+        }
+
+        .star-input button.active,
+        .star-input button:hover {
+          color: var(--star);
+          transform: scale(1.1);
+        }
+
+        .star-input-value {
+          margin-left: 8px;
+          font-size: 14px;
+          color: var(--text-secondary);
+        }
+
         /* ============ EMPTY STATE ============ */
         .empty-state {
           text-align: center;
@@ -575,6 +737,15 @@
           font-size: 20px;
           color: var(--text);
           margin-bottom: 8px;
+        }
+
+        .empty-state-small {
+          text-align: center;
+          padding: 24px;
+          color: var(--text-muted);
+          font-size: 13px;
+          background: var(--surface-2);
+          border-radius: var(--radius);
         }
 
         /* ============ PAGINATION ============ */
@@ -994,7 +1165,7 @@
         .toast-icon { font-size: 20px; flex-shrink: 0; }
         .toast-content { flex: 1; }
         .toast-title { font-weight: 700; font-size: 14px; margin-bottom: 2px; }
-        .toast-message { font-size: 13px; color: var(--text-secondary); }
+        .toast-message { font-size: 13px; color: var(--text-secondary); white-space: pre-line; }
 
         /* ============ LOADER ============ */
         .loader {
@@ -1159,51 +1330,68 @@
         currentEvent: null,
         editingEvent: null,
         myTickets: [],
+        currentReviewRating: 0,
     };
 
     // ============================================================
     // API ХЕЛПЕРЫ
     // ============================================================
-async function apiCall(path, options = {}) {
-    const headers = {
-        'Content-Type': 'application/json',
-        ...(options.headers || {})
-    };
+    async function apiCall(path, options = {}) {
+        const headers = {
+            'Content-Type': 'application/json',
+            ...(options.headers || {})
+        };
 
-    if (state.token && !options.noAuth) {
-        headers['Authorization'] = `Bearer ${state.token}`;
+        if (state.token && !options.noAuth) {
+            headers['Authorization'] = `Bearer ${state.token}`;
+        }
+
+        const response = await fetch(`${API_URL}${path}`, {
+            ...options,
+            headers,
+        });
+
+        const text = await response.text();
+        let data = null;
+        try {
+            data = text ? JSON.parse(text) : null;
+        } catch {
+            data = text;
+        }
+
+        if (response.status === 401 && state.token && !options.noAuth) {
+            handleUnauthorized();
+            const error = new Error('Сессия истекла');
+            error.status = 401;
+            throw error;
+        }
+
+        if (!response.ok) {
+            const message = data?.message || data?.error || data || `Ошибка ${response.status}`;
+            const error = new Error(message);
+            error.status = response.status;
+            error.details = data?.details || null;  // ← сохраняем details валидации
+            throw error;
+        }
+
+        return data;
     }
 
-    const response = await fetch(`${API_URL}${path}`, {
-        ...options,
-        headers,
-    });
-
-    const text = await response.text();
-    let data = null;
-    try {
-        data = text ? JSON.parse(text) : null;
-    } catch {
-        data = text;
+    // ============================================================
+    // ОБРАБОТКА ОШИБОК API
+    // ============================================================
+    /**
+     * Показывает ошибку API в тосте.
+     * Если есть details (ошибки валидации) — показывает их списком.
+     */
+    function showApiError(e, fallbackMessage = 'Произошла ошибка') {
+        if (e.details && typeof e.details === 'object' && Object.keys(e.details).length > 0) {
+            const detailsText = Object.values(e.details).join('\n');
+            showToast(detailsText, 'warning', e.message || 'Ошибка валидации');
+        } else {
+            showToast(e.message || fallbackMessage, 'error');
+        }
     }
-
-    // ← НОВОЕ: обработка истёкшего токена
-    if (response.status === 401 && state.token && !options.noAuth) {
-        handleUnauthorized();
-        const error = new Error('Сессия истекла');
-        error.status = 401;
-        throw error;
-    }
-
-    if (!response.ok) {
-        const message = data?.message || data?.error || data || `Ошибка ${response.status}`;
-        const error = new Error(message);
-        error.status = response.status;
-        throw error;
-    }
-
-    return data;
-}
 
     // ============================================================
     // УТИЛИТЫ
@@ -1242,6 +1430,16 @@ async function apiCall(path, options = {}) {
         }).format(date);
     }
 
+    function formatDateOnly(dateString) {
+        if (!dateString) return '—';
+        const date = new Date(dateString);
+        return new Intl.DateTimeFormat('ru-RU', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+        }).format(date);
+    }
+
     function getInitials(str) {
         if (!str) return '?';
         return str.substring(0, 2).toUpperCase();
@@ -1255,6 +1453,14 @@ async function apiCall(path, options = {}) {
             .replace(/>/g, '&gt;')
             .replace(/"/g, '&quot;')
             .replace(/'/g, '&#039;');
+    }
+
+    function renderStars(rating) {
+        let html = '';
+        for (let i = 1; i <= 5; i++) {
+            html += i <= rating ? '★' : '☆';
+        }
+        return html;
     }
 
     const TYPE_LABELS = {
@@ -1307,7 +1513,7 @@ async function apiCall(path, options = {}) {
         setTimeout(() => {
             toast.style.animation = 'slideIn 0.3s reverse';
             setTimeout(() => toast.remove(), 300);
-        }, 4000);
+        }, 5000);
     }
 
     // ============================================================
@@ -1327,6 +1533,7 @@ async function apiCall(path, options = {}) {
         overlay.classList.remove('active');
         document.body.style.overflow = '';
         state.editingEvent = null;
+        state.currentReviewRating = 0;
     }
 
     function closeModalOnOverlay(e) {
@@ -1349,20 +1556,22 @@ async function apiCall(path, options = {}) {
         showCatalog();
         showToast('Вы вышли из аккаунта', 'info');
     }
-function handleUnauthorized() {
-    if (!state.token) return;
 
-    state.token = null;
-    state.email = null;
-    localStorage.removeItem('token');
-    localStorage.removeItem('email');
+    function handleUnauthorized() {
+        if (!state.token) return;
 
-    closeModal();
-    renderHeader();
-    showCatalog();
-    showToast('Сессия истекла. Войдите снова.', 'warning');
-    openLoginModal();
-}
+        state.token = null;
+        state.email = null;
+        localStorage.removeItem('token');
+        localStorage.removeItem('email');
+
+        closeModal();
+        renderHeader();
+        showCatalog();
+        showToast('Сессия истекла. Войдите снова.', 'warning');
+        openLoginModal();
+    }
+
     function renderHeader() {
         const container = document.getElementById('headerActions');
         if (state.token) {
@@ -1471,7 +1680,7 @@ function handleUnauthorized() {
             const profile = await apiCall('/profiles/me');
             renderEditProfileForm(profile);
         } catch (e) {
-            showToast(e.message || 'Ошибка загрузки профиля', 'error');
+            showApiError(e, 'Ошибка загрузки профиля');
             closeModal();
         }
     }
@@ -1528,7 +1737,7 @@ function handleUnauthorized() {
             showToast('Профиль обновлён!', 'success');
             closeModal();
         } catch (e) {
-            showToast(e.message || 'Ошибка сохранения', 'error');
+            showApiError(e, 'Ошибка сохранения');
         }
     }
 
@@ -1541,7 +1750,13 @@ function handleUnauthorized() {
 
         try {
             const profile = await apiCall(`/profiles/${userId}`, { noAuth: true });
-            renderPublicProfile(profile);
+            let reviews = [];
+            try {
+                reviews = await apiCall(`/users/${userId}/reviews`, { noAuth: true });
+            } catch {
+                reviews = [];
+            }
+            renderPublicProfile(profile, userId, reviews);
         } catch (e) {
             openModal(`
                 <div class="modal-header">
@@ -1555,7 +1770,7 @@ function handleUnauthorized() {
         }
     }
 
-    function renderPublicProfile(profile) {
+    function renderPublicProfile(profile, userId, reviews) {
         const avatar = profile.avatarUrl
             ? `background-image: url('${escapeHtml(profile.avatarUrl)}'); background-size: cover;`
             : '';
@@ -1602,7 +1817,14 @@ function handleUnauthorized() {
                     </div>
                 ` : ''}
 
-                <button class="btn btn-secondary btn-block" onclick="closeModal()">Закрыть</button>
+                <div class="reviews-section" style="margin-top: 0; padding-top: 0; border-top: none;">
+                    <div class="reviews-header">
+                        <div class="reviews-title">Отзывы (${reviews.length})</div>
+                    </div>
+                    ${renderReviewsList(reviews, false)}
+                </div>
+
+                <button class="btn btn-secondary btn-block mt-4" onclick="closeModal()">Закрыть</button>
             </div>
         `);
     }
@@ -1651,7 +1873,7 @@ function handleUnauthorized() {
                 </div>
                 <div class="form-group">
                     <label class="form-label">Пароль</label>
-                    <input type="password" class="form-input" id="regPassword" placeholder="Минимум 6 символов">
+                    <input type="password" class="form-input" id="regPassword" placeholder="От 6 до 30 символов">
                 </div>
                 <button class="btn btn-primary btn-block btn-lg" onclick="doRegister()">Создать аккаунт</button>
                 <p class="text-secondary" style="text-align: center; margin-top: 16px; font-size: 14px;">
@@ -1688,7 +1910,7 @@ function handleUnauthorized() {
             showToast('Добро пожаловать!', 'success');
             showCatalog();
         } catch (e) {
-            showToast(e.message || 'Неверный email или пароль', 'error');
+            showApiError(e, 'Неверный email или пароль');
         }
     }
 
@@ -1699,11 +1921,6 @@ function handleUnauthorized() {
 
         if (!email || !fullName || !password) {
             showToast('Заполните все поля', 'warning');
-            return;
-        }
-
-        if (password.length < 6) {
-            showToast('Пароль должен быть минимум 6 символов', 'warning');
             return;
         }
 
@@ -1722,7 +1939,7 @@ function handleUnauthorized() {
                 if (loginEmail) loginEmail.value = email;
             }, 400);
         } catch (e) {
-            showToast(e.message || 'Ошибка регистрации', 'error');
+            showApiError(e, 'Ошибка регистрации');
         }
     }
 
@@ -2017,7 +2234,6 @@ function handleUnauthorized() {
             const event = await apiCall(`/eventById/${id}`, { noAuth: true });
             state.currentEvent = event;
 
-            // Проверяем, записан ли текущий пользователь
             let myRegistration = null;
             if (state.token && event.organizerEmail !== state.email) {
                 try {
@@ -2027,7 +2243,6 @@ function handleUnauthorized() {
                 }
             }
 
-            // Если пользователь — организатор, грузим участников
             let participants = null;
             if (state.token && event.organizerEmail === state.email) {
                 try {
@@ -2037,7 +2252,14 @@ function handleUnauthorized() {
                 }
             }
 
-            renderEventDetail(event, myRegistration, participants);
+            let reviews = [];
+            try {
+                reviews = await apiCall(`/events/${id}/reviews`, { noAuth: true });
+            } catch {
+                reviews = [];
+            }
+
+            renderEventDetail(event, myRegistration, participants, reviews);
         } catch (e) {
             openModal(`
                 <div class="modal-header">
@@ -2051,7 +2273,9 @@ function handleUnauthorized() {
         }
     }
 
-    function renderEventDetail(event, myRegistration, participants) {
+    function renderEventDetail(event, myRegistration, participants, reviews) {
+        reviews = reviews || [];
+
         const cover = event.imageUrls && event.imageUrls.length > 0
             ? `background-image: url('${escapeHtml(event.imageUrls[0])}')`
             : `background: ${getPlaceholderGradient(event.name || '')}`;
@@ -2074,11 +2298,9 @@ function handleUnauthorized() {
             `
             : '';
 
-        // Блок действий — что показать в сайдбаре
         let actionBlock = '';
 
         if (isOwner) {
-            // Организатор
             actionBlock = `
                 <button class="btn btn-primary btn-block" onclick="closeModal(); openEditEventModal(${event.id})">
                     ✏️ Редактировать
@@ -2088,23 +2310,22 @@ function handleUnauthorized() {
                 </button>
             `;
 
-            // Участники для организатора
             if (participants && participants.length > 0) {
                 actionBlock += `
                     <div class="sidebar-card mt-2">
                         <div class="sidebar-label mb-2">Участники (${participants.length})</div>
                         <div class="participants-list">
-                           ${participants.map(p => `
-    <div class="participant-item" style="cursor: pointer;"
-         onclick="closeModal(); openPublicProfile(${p.userId})">
-        <div class="participant-avatar">${getInitials(p.fullName || p.email)}</div>
-        <div class="participant-info">
-            <div class="participant-name">${escapeHtml(p.fullName || 'Без имени')}</div>
-            <div class="participant-email">${escapeHtml(p.email || '')}</div>
-        </div>
-        <div class="participant-ticket" title="Номер билета">#${escapeHtml((p.ticketNumber || '').substring(0, 8).toUpperCase())}</div>
-    </div>
-`).join('')}
+                            ${participants.map(p => `
+                                <div class="participant-item" style="cursor: pointer;"
+                                     onclick="closeModal(); openPublicProfile(${p.userId})">
+                                    <div class="participant-avatar">${getInitials(p.fullName || p.email)}</div>
+                                    <div class="participant-info">
+                                        <div class="participant-name">${escapeHtml(p.fullName || 'Без имени')}</div>
+                                        <div class="participant-email">${escapeHtml(p.email || '')}</div>
+                                    </div>
+                                    <div class="participant-ticket" title="Номер билета">#${escapeHtml((p.ticketNumber || '').substring(0, 8).toUpperCase())}</div>
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
                 `;
@@ -2116,14 +2337,12 @@ function handleUnauthorized() {
                 `;
             }
         } else if (!state.token) {
-            // Не залогинен
             actionBlock = `
                 <button class="btn btn-primary btn-block btn-lg" onclick="closeModal(); openLoginModal();">
                     🎟 Войдите, чтобы записаться
                 </button>
             `;
         } else if (myRegistration && myRegistration.registrationStatus === 'CONFIRMED') {
-            // Уже записан
             actionBlock = `
                 <div class="ticket-badge">
                     ✓ Вы записаны
@@ -2136,20 +2355,38 @@ function handleUnauthorized() {
                 </button>
             `;
         } else if (isPast) {
-            // Событие прошло
             actionBlock = `
                 <button class="btn btn-secondary btn-block btn-lg" disabled>
                     Событие завершено
                 </button>
             `;
         } else {
-            // Может записаться
             actionBlock = `
                 <button class="btn btn-primary btn-block btn-lg" onclick="registerToEvent(${event.id})">
                     🎟 Записаться
                 </button>
             `;
         }
+
+        const canReview = state.token
+            && !isOwner
+            && isPast
+            && myRegistration
+            && myRegistration.registrationStatus === 'CONFIRMED';
+
+        const reviewActionBlock = `
+            <div class="reviews-section">
+                <div class="reviews-header">
+                    <div class="reviews-title">Отзывы (${reviews.length})</div>
+                    ${canReview ? `
+                        <button class="btn btn-primary btn-sm" onclick="openCreateReviewModal(${event.id})">
+                            ✍️ Оставить отзыв
+                        </button>
+                    ` : ''}
+                </div>
+                ${renderReviewsList(reviews, true)}
+            </div>
+        `;
 
         openModal(`
             <div class="event-detail-cover" style="${cover}">
@@ -2186,6 +2423,7 @@ function handleUnauthorized() {
                     <div class="sidebar-label mb-2">Описание</div>
                     <div class="event-detail-description">${escapeHtml(event.description || 'Описание не указано')}</div>
                     ${imagesHtml}
+                    ${reviewActionBlock}
                 </div>
 
                 <div class="event-detail-sidebar">
@@ -2218,6 +2456,181 @@ function handleUnauthorized() {
     }
 
     // ============================================================
+    // ОТЗЫВЫ
+    // ============================================================
+    function renderReviewsList(reviews, showEventRef) {
+        if (!reviews || reviews.length === 0) {
+            return `<div class="empty-state-small">Пока нет отзывов</div>`;
+        }
+
+        return `
+            <div class="reviews-list">
+                ${reviews.map(r => `
+                    <div class="review-item">
+                        <div class="review-header">
+                            <div class="review-avatar" onclick="closeModal(); openPublicProfile(${r.authorId})">
+                                ${getInitials(r.authorFullName || '')}
+                            </div>
+                            <div class="review-author">
+                                <div class="review-author-name" onclick="closeModal(); openPublicProfile(${r.authorId})">
+                                    ${escapeHtml(r.authorFullName || 'Аноним')}
+                                </div>
+                                <div class="review-date">${formatDateOnly(r.createdAt)}</div>
+                            </div>
+                            <div class="review-rating" title="${r.rating} из 5">
+                                ${renderStars(r.rating)}
+                            </div>
+                        </div>
+                        ${showEventRef && r.eventName ? `
+                            <div class="review-event-ref">
+                                Отзыв на событие: <a onclick="closeModal(); openEventDetail(${r.eventId})">${escapeHtml(r.eventName)}</a>
+                            </div>
+                        ` : ''}
+                        <div class="review-text">${escapeHtml(r.text || '')}</div>
+                        ${r.imageUrls && r.imageUrls.length > 0 ? `
+                            <div class="review-images">
+                                ${r.imageUrls.map(url => `
+                                    <div class="review-image" style="background-image: url('${escapeHtml(url)}')"
+                                         onclick="window.open('${escapeHtml(url)}', '_blank')"></div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    function openCreateReviewModal(eventId) {
+        if (!state.token) {
+            showToast('Сначала войдите', 'warning');
+            closeModal();
+            openLoginModal();
+            return;
+        }
+
+        state.currentReviewRating = 0;
+
+        openModal(`
+            <div class="modal-header">
+                <div class="modal-title">Оставить отзыв</div>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Ваша оценка *</label>
+                    <div class="star-input" id="starInput">
+                        ${[1, 2, 3, 4, 5].map(n => `
+                            <button type="button" data-rating="${n}" onclick="setReviewRating(${n})">☆</button>
+                        `).join('')}
+                        <span class="star-input-value" id="starValue">Выберите оценку</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Текст отзыва *</label>
+                    <textarea class="form-textarea" id="reviewText" maxlength="1000" placeholder="Поделитесь впечатлениями..."></textarea>
+                    <div class="form-hint">Максимум 1000 символов</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Фотографии (опционально)</label>
+                    <div class="image-inputs" id="reviewImageInputs">
+                        ${renderReviewImageInput('', 0)}
+                    </div>
+                    <button class="add-image-btn mt-2" onclick="addReviewImageInput()">+ Добавить фото</button>
+                    <div class="form-hint">Вставьте ссылки на фото (https://...)</div>
+                </div>
+
+                <button class="btn btn-primary btn-block btn-lg" onclick="submitReview(${eventId})">
+                    Отправить отзыв
+                </button>
+            </div>
+        `);
+    }
+
+    function setReviewRating(rating) {
+        state.currentReviewRating = rating;
+
+        const container = document.getElementById('starInput');
+        const buttons = container.querySelectorAll('button');
+        buttons.forEach((btn, idx) => {
+            btn.textContent = idx < rating ? '★' : '☆';
+            btn.classList.toggle('active', idx < rating);
+        });
+
+        const labels = ['', 'Ужасно', 'Плохо', 'Нормально', 'Хорошо', 'Отлично'];
+        document.getElementById('starValue').textContent = labels[rating] || '';
+    }
+
+    function renderReviewImageInput(url, index) {
+        return `
+            <div class="image-input-row" data-index="${index}">
+                <input type="url" class="form-input review-image-url-input" placeholder="https://example.com/photo.jpg" value="${escapeHtml(url || '')}">
+                <button class="remove-image-btn" onclick="removeReviewImageInput(${index})" type="button">✕</button>
+            </div>
+        `;
+    }
+
+    function addReviewImageInput() {
+        const container = document.getElementById('reviewImageInputs');
+        const index = container.children.length;
+        const div = document.createElement('div');
+        div.innerHTML = renderReviewImageInput('', index);
+        container.appendChild(div.firstElementChild);
+    }
+
+    function removeReviewImageInput(index) {
+        const container = document.getElementById('reviewImageInputs');
+        const rows = container.querySelectorAll('.image-input-row');
+        if (rows.length <= 1) {
+            rows[0].querySelector('input').value = '';
+            return;
+        }
+        rows[index]?.remove();
+    }
+
+    async function submitReview(eventId) {
+        if (!state.token) {
+            showToast('Сначала войдите', 'warning');
+            return;
+        }
+
+        if (state.currentReviewRating < 1 || state.currentReviewRating > 5) {
+            showToast('Поставьте оценку от 1 до 5', 'warning');
+            return;
+        }
+
+        const text = document.getElementById('reviewText').value.trim();
+        if (!text) {
+            showToast('Напишите текст отзыва', 'warning');
+            return;
+        }
+
+        const imageUrls = Array.from(document.querySelectorAll('.review-image-url-input'))
+            .map(input => input.value.trim())
+            .filter(url => url.length > 0 && url.length < 2000);
+
+        const payload = {
+            rating: state.currentReviewRating,
+            text,
+            imageUrls,
+        };
+
+        try {
+            await apiCall(`/events/${eventId}/reviews`, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+            });
+            showToast('Отзыв опубликован!', 'success');
+            closeModal();
+            setTimeout(() => openEventDetail(eventId), 300);
+        } catch (e) {
+            showApiError(e, 'Ошибка отправки отзыва');
+        }
+    }
+
+    // ============================================================
     // ЗАПИСЬ НА СОБЫТИЕ / ОТМЕНА
     // ============================================================
     async function registerToEvent(eventId) {
@@ -2235,14 +2648,7 @@ function handleUnauthorized() {
             loadEvents();
             setTimeout(() => openEventDetail(eventId), 300);
         } catch (e) {
-            // Обработка конкретных ошибок
-            if (e.status === 409) {
-                showToast(e.message || 'Не удалось записаться', 'warning');
-            } else if (e.status === 400) {
-                showToast(e.message || 'Запись недоступна', 'warning');
-            } else {
-                showToast(e.message || 'Ошибка записи', 'error');
-            }
+            showApiError(e, 'Ошибка записи');
         }
     }
 
@@ -2256,7 +2662,7 @@ function handleUnauthorized() {
             loadEvents();
             setTimeout(() => openEventDetail(eventId), 300);
         } catch (e) {
-            showToast(e.message || 'Ошибка отмены', 'error');
+            showApiError(e, 'Ошибка отмены');
         }
     }
 
@@ -2433,7 +2839,7 @@ function handleUnauthorized() {
             state.editingEvent = event;
             renderEventForm(event);
         } catch (e) {
-            showToast(e.message || 'Ошибка загрузки', 'error');
+            showApiError(e, 'Ошибка загрузки');
             closeModal();
         }
     }
@@ -2580,7 +2986,7 @@ function handleUnauthorized() {
         const payload = {
             name,
             type,
-            eventDate: new Date(eventDate).toISOString(),
+            eventDate: eventDate + ':00',
             location,
             price,
             maxParticipants,
@@ -2606,7 +3012,7 @@ function handleUnauthorized() {
             closeModal();
             loadEvents();
         } catch (e) {
-            showToast(e.message || 'Ошибка сохранения', 'error');
+            showApiError(e, 'Ошибка сохранения');
         }
     }
 
@@ -2622,7 +3028,7 @@ function handleUnauthorized() {
                 showMyEvents();
             }
         } catch (e) {
-            showToast(e.message || 'Ошибка удаления', 'error');
+            showApiError(e, 'Ошибка удаления');
         }
     }
 
