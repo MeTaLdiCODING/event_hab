@@ -1,6 +1,4 @@
 package com.event.hab.events.model;
-
-
 import com.event.hab.auth.model.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,7 +22,7 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 100)
     private String name;
 
     @Enumerated(EnumType.STRING)
@@ -38,10 +35,10 @@ public class Event {
     @Column(nullable = false)
     private LocalDateTime eventDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 3000)
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 300)
     private String location;
 
     @Column(nullable = false)
@@ -59,7 +56,7 @@ public class Event {
 
     @ElementCollection
     @CollectionTable(name = "event_images", joinColumns = @JoinColumn(name = "event_id"))
-    @Column(name = "image_url")
+    @Column(name = "image_url", length = 2000)
     private List<String> imageUrls = new ArrayList<>();
 
     @ManyToOne

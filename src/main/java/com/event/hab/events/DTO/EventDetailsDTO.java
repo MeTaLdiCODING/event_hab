@@ -2,6 +2,7 @@ package com.event.hab.events.DTO;
 
 import com.event.hab.events.model.Status;
 import com.event.hab.events.model.Type;
+import jakarta.persistence.Id;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -12,7 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EventDetailsDTO {
-
     private Long id;
     private String name;
     private Type type;

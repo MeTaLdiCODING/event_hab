@@ -5,6 +5,7 @@ import com.event.hab.events.DTO.EventSummaryDTO;
 import com.event.hab.events.DTO.UpdateEventRequest;
 import com.event.hab.events.model.Type;
 import com.event.hab.events.service.EventService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -42,13 +43,19 @@ public class EventController {
     }
 
     @PostMapping("/createEvent")
-    public EventDetailsDTO createEvent(@RequestBody CreateEventRequest request){
+    public EventDetailsDTO createEvent(@Valid @RequestBody CreateEventRequest request){
         return eventService.createEvent(request);
 
     }
 
+    @PostMapping("/events/{id}/cancel")
+    public EventDetailsDTO cancelEvent(@PathVariable Long id){
+        return eventService.cancelEvent(id);
+
+    }
+
     @PutMapping("/updateEvent/{id}")
-    public EventDetailsDTO updateEvent(@PathVariable Long id, @RequestBody UpdateEventRequest request){
+    public EventDetailsDTO updateEvent(@PathVariable Long id, @Valid @RequestBody UpdateEventRequest request){
         return eventService.updateEvent(id,request);
     }
 
