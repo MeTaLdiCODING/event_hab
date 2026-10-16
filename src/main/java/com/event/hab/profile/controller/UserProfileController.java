@@ -3,6 +3,7 @@ package com.event.hab.profile.controller;
 import com.event.hab.profile.DTO.UpdateProfileRequest;
 import com.event.hab.profile.DTO.UserProfileDetailsDTO;
 import com.event.hab.profile.service.UserProfileService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,8 +19,8 @@ public class UserProfileController {
         return userProfileService.getMyProfile();
     }
 
-    @PutMapping("/profiles/me")
-    public UserProfileDetailsDTO updateMyProfile(@RequestBody UpdateProfileRequest request){
+    @PatchMapping("/profiles/me")
+    public UserProfileDetailsDTO updateMyProfile(@Valid @RequestBody UpdateProfileRequest request){
         return userProfileService.updateMyProfile(request);
     }
 

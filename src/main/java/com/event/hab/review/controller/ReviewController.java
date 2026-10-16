@@ -3,6 +3,7 @@ package com.event.hab.review.controller;
 import com.event.hab.review.DTO.ReviewRequest;
 import com.event.hab.review.DTO.ReviewResponse;
 import com.event.hab.review.service.ReviewService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +17,7 @@ final ReviewService reviewService;
     }
 
     @PostMapping("/events/{eventId}/reviews")
-    public ReviewResponse createReview(@PathVariable Long eventId, @RequestBody ReviewRequest request){
+    public ReviewResponse createReview(@PathVariable Long eventId,@Valid @RequestBody ReviewRequest request){
        return reviewService.createReview(eventId, request);
     }
 

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -31,7 +32,7 @@ public class UpdateEventRequest {
     @Positive
     private int maxParticipants;
     @Size(max=10)
-    private List<@Size(max=2000) String> imageUrls ;
+    private List<@Size(max=2000) String> imageUrls = new ArrayList<>() ;
     @Size(max = 3000)
     @NotBlank
     private String description;

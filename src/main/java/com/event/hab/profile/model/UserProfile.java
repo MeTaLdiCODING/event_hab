@@ -1,11 +1,9 @@
 package com.event.hab.profile.model;
-
 import com.event.hab.auth.model.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.List;
 
 @Entity
 @Getter
@@ -22,6 +20,7 @@ public class UserProfile {
     private User user;
     @Column(length = 500)
     private String bio;
+    @Column(length = 2000)
     private String avatarUrl;
     @Column(nullable = false)
     private boolean allowMessages;
