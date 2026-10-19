@@ -13,6 +13,7 @@ public class UserProfileDetailsDTO {
     private String fullName;
     private String bio;
     private String avatarUrl;
+    private Boolean allowMessages;
     private double rating;
     private int reviewsCount;
     private int completedEventsCount;
