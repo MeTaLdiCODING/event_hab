@@ -52,6 +52,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth
                                 .requestMatchers("/register", "/login").permitAll()
+                                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/events","/eventById/*").permitAll()
                                 .requestMatchers(HttpMethod.GET,"/events/*/reviews","/users/*/reviews").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/profiles/me").authenticated()

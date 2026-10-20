@@ -16,7 +16,6 @@ import com.event.hab.registration.model.Registration;
 import com.event.hab.registration.model.RegistrationStatus;
 import com.event.hab.registration.repository.RegistrationRepository;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
