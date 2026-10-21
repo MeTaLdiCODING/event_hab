@@ -98,4 +98,3 @@ Event Hub - это веб-приложение для организации и 
 
 **Даниил Терехов**
 * GitHub: [@MeTaLdiCODING](https://github.com/MeTaLdiCODING)
-* Студент ИСПО "СПБПУ", Java Backend Developer
